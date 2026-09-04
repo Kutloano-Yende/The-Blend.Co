@@ -1,0 +1,24 @@
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-4xl) var(--spacing-lg);
+  color: var(--color-text-secondary);
+  grid-column: 1 / -1;
+}
+
+.error-state svg {
+  color: var(--color-burgundy);
+  margin-bottom: var(--spacing-lg);
+}
+
+.error-state h2 {
+  font-size: var(--text-heading-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.error-state p {
+  max-width: 40ch;
+  margin-bottom: var(--spacing-xl);
+}

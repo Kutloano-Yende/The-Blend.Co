@@ -1,0 +1,128 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.hero-content {
+  padding: var(--spacing-xl) var(--container-padding-mobile) var(--spacing-2xl);
+  background-color: var(--color-burgundy);
+  color: var(--color-soft-white);
+}
+
+.hero-heading {
+  font-size: var(--text-display-sm);
+  color: var(--color-soft-white);
+  margin-bottom: var(--spacing-md);
+  max-width: 480px;
+}
+
+.hero-subheading {
+  font-size: var(--text-body-md);
+  color: rgba(255, 250, 250, 0.85);
+  max-width: 420px;
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero-cta {
+  display: inline-block;
+  color: var(--color-burgundy);
+  width: 100%;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 65vh;
+  }
+
+  .hero-image-wrap {
+    height: 60vh;
+  }
+
+  .hero-content {
+    padding: var(--spacing-2xl) var(--container-padding-tablet) var(--spacing-3xl);
+  }
+
+  .hero-cta {
+    width: auto;
+    padding-left: var(--spacing-2xl);
+    padding-right: var(--spacing-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 80vh;
+    display: block;
+  }
+
+  .hero-image-wrap {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .hero-content {
+    position: relative;
+    background-color: transparent;
+    max-width: 560px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 0 var(--spacing-4xl) var(--container-padding-desktop);
+  }
+
+  .hero-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(74, 36, 57, 0.92) 0%,
+      rgba(74, 36, 57, 0.55) 70%,
+      rgba(74, 36, 57, 0) 100%
+    );
+    z-index: 0;
+  }
+
+  .hero-heading,
+  .hero-subheading,
+  .hero-cta {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-heading {
+    font-size: var(--text-display-lg);
+  }
+
+  .hero-subheading {
+    font-size: var(--text-subheading);
+  }
+
+  .hero-cta {
+    align-self: flex-start;
+  }
+}

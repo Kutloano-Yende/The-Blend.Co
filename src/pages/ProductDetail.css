@@ -1,0 +1,218 @@
+.pdp-state-wrap {
+  padding: var(--spacing-4xl) 0;
+}
+
+.pdp-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+}
+
+@media (min-width: 1024px) {
+  .pdp-layout {
+    flex-direction: row;
+    gap: var(--spacing-4xl);
+    align-items: flex-start;
+  }
+
+  .pdp-gallery-col {
+    flex: 1;
+    max-width: 600px;
+    position: sticky;
+    top: 100px;
+  }
+
+  .pdp-info-col {
+    flex: 1;
+    min-width: 0;
+    max-width: 560px;
+  }
+}
+
+.pdp-name {
+  font-size: var(--text-heading-lg);
+  margin-bottom: var(--spacing-sm);
+}
+
+.pdp-rating-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.pdp-stars {
+  color: var(--color-rose);
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.pdp-review-count {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pdp-rating-link:hover .pdp-review-count {
+  color: var(--color-burgundy);
+}
+
+.pdp-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.pdp-price-current {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--color-burgundy);
+}
+
+.pdp-price-original {
+  font-size: var(--text-body-lg);
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+}
+
+.pdp-sale-badge {
+  background-color: var(--color-burgundy);
+  color: var(--color-soft-white);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.pdp-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-xl);
+}
+
+.pdp-stock.in-stock {
+  color: var(--color-text-primary);
+}
+
+.pdp-stock.out-of-stock {
+  color: var(--color-burgundy);
+}
+
+.pdp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.btn-add-to-bag,
+.btn-buy-now {
+  flex: 1 1 200px;
+  min-height: 52px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-body-lg);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-add-to-bag {
+  background-color: var(--color-rose);
+  color: var(--color-burgundy);
+}
+
+.btn-add-to-bag:hover:not(:disabled) {
+  background-color: #d69ba9;
+}
+
+.btn-add-to-bag.success {
+  background-color: var(--color-burgundy);
+  color: var(--color-soft-white);
+}
+
+.btn-add-to-bag:disabled {
+  background-color: #e6e6e6;
+  color: var(--color-text-tertiary);
+}
+
+.btn-buy-now {
+  background-color: var(--color-soft-white);
+  color: var(--color-burgundy);
+  border: 1.5px solid var(--color-burgundy);
+}
+
+.btn-buy-now:hover:not(:disabled) {
+  background-color: rgba(74, 36, 57, 0.06);
+}
+
+.btn-buy-now.success {
+  background-color: var(--color-burgundy);
+  color: var(--color-soft-white);
+}
+
+.btn-buy-now:disabled {
+  border-color: var(--color-border-light);
+  color: var(--color-text-tertiary);
+}
+
+.btn-wishlist-pdp {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background-color: var(--color-soft-white);
+  color: var(--color-burgundy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-wishlist-pdp:hover {
+  border-color: var(--color-burgundy);
+}
+
+.btn-wishlist-pdp.is-active {
+  color: var(--color-rose);
+  border-color: var(--color-rose);
+}
+
+.pdp-cart-feedback {
+  font-size: 13px;
+  color: var(--color-burgundy);
+  font-weight: 600;
+  margin-bottom: var(--spacing-lg);
+}
+
+.pdp-delivery-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-md);
+  background-color: #f7f2f2;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.pdp-delivery-info svg {
+  flex-shrink: 0;
+  color: var(--color-burgundy);
+}
+
+.pdp-expandables {
+  border-top: 1px solid var(--color-border-light);
+}
