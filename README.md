@@ -1,23 +1,25 @@
-# The Blend.Co — Claude design setup
+# The Blend.Co
 
-This folder contains project-level design instructions for Claude Code.
+Premium hair and beauty e-commerce storefront, built with React, Vite, and react-router-dom.
 
-## Install/use
+## Design system
 
-Copy the `.claude` directory into the root of the e-commerce project.
+Project design instructions for Claude Code live in `.claude/`:
 
-The main skill is:
+- `.claude/skills/the-blend-design-system/SKILL.md` — the main design-system skill
+- `.claude/frontend-design-project-rules.md` — project-specific frontend rules
 
-`.claude/skills/the-blend-design-system/SKILL.md`
+Brand colors: Deep Burgundy `#4A2439`, Dusty Rose `#E7A7B5`, Soft White `#FFFAFA`.
 
-Project-specific frontend-design rules are in:
+## Pages
 
-`.claude/frontend-design-project-rules.md`
+- **Homepage** (`/`) — hero, shop-by-category, featured products, brand story, testimonials
+- **Shop** (`/shop`) — search, category filters, sort, product grid
+- **Product Detail** (`/product/:id`) — image gallery, variant selection, reviews, related products
 
-Recommended workflow:
+## Development
 
-1. Use the official Anthropic `frontend-design` skill when available.
-2. Load the The Blend.Co design-system skill for every UI task.
-3. Build one page/flow at a time.
-4. Review desktop and mobile before moving on.
-5. Run the page review checklist before calling the work complete.
+```bash
+npm install
+npm run dev
+```
