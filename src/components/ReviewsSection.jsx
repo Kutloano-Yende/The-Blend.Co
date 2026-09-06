@@ -20,6 +20,17 @@ function estimateBreakdown(rating, reviewCount) {
 }
 
 function ReviewsSection({ rating, reviewCount, reviews }) {
+  if (!reviewCount) {
+    return (
+      <section className="reviews-section" aria-labelledby="reviews-heading">
+        <h2 id="reviews-heading">Customer Reviews</h2>
+        <p className="reviews-empty">
+          No reviews yet. Be the first to share your experience with this product.
+        </p>
+      </section>
+    );
+  }
+
   const breakdown = estimateBreakdown(rating, reviewCount);
   const maxCount = Math.max(...Object.values(breakdown), 1);
 

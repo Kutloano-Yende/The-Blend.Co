@@ -65,10 +65,16 @@ function ProductCard({ product }) {
         </h3>
         {metaLine && <p className="product-card-meta">{metaLine}</p>}
 
-        <div className="product-card-rating" aria-label={`${rating} out of 5 stars, ${reviewCount} reviews`}>
-          <span aria-hidden="true" className="stars">{'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}</span>
-          <span className="review-count">{reviewCount} reviews</span>
-        </div>
+        {reviewCount > 0 ? (
+          <div className="product-card-rating" aria-label={`${rating} out of 5 stars, ${reviewCount} reviews`}>
+            <span aria-hidden="true" className="stars">{'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}</span>
+            <span className="review-count">{reviewCount} reviews</span>
+          </div>
+        ) : (
+          <div className="product-card-rating">
+            <span className="review-count">No reviews yet</span>
+          </div>
+        )}
 
         <div className="product-card-price">
           <span className="price-current" aria-label={`R${price.toFixed(2)}`}>

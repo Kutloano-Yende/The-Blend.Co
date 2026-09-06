@@ -146,12 +146,18 @@ function ProductDetail() {
                 <h1 className="pdp-name">{product.name}</h1>
 
                 <a href="#reviews-heading" className="pdp-rating-link">
-                  <span className="pdp-stars" aria-hidden="true">
-                    {'★'.repeat(Math.round(product.rating))}
-                    {'☆'.repeat(5 - Math.round(product.rating))}
-                  </span>
-                  <span className="sr-only">{product.rating} out of 5 stars</span>
-                  <span className="pdp-review-count">{product.reviewCount} reviews</span>
+                  {product.reviewCount > 0 ? (
+                    <>
+                      <span className="pdp-stars" aria-hidden="true">
+                        {'★'.repeat(Math.round(product.rating))}
+                        {'☆'.repeat(5 - Math.round(product.rating))}
+                      </span>
+                      <span className="sr-only">{product.rating} out of 5 stars</span>
+                      <span className="pdp-review-count">{product.reviewCount} reviews</span>
+                    </>
+                  ) : (
+                    <span className="pdp-review-count">No reviews yet</span>
+                  )}
                 </a>
 
                 <div className="pdp-price">
