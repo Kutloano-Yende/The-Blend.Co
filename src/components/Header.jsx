@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
 import './Header.css';
 
 function Header() {
@@ -17,7 +18,7 @@ function Header() {
         {/* Logo */}
         <div className="header-logo">
           <Link to="/" aria-label="The Blend.Co Home">
-            <span className="logo-text">The Blend.Co</span>
+            <img src={logo} alt="The Blend.Co" className="logo-image" />
           </Link>
         </div>
 
