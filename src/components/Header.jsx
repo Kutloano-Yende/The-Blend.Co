@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
 function formatZAR(amount) {
@@ -16,6 +17,7 @@ function Header() {
   const [showAddedToast, setShowAddedToast] = useState(false);
 
   const { items: cartItems, cartCount, cartTotal, lastAddedAt, updateQuantity, removeItem } = useCart();
+  const { isAdmin } = useAuth();
   const wishlistCount = 0;
 
   const lastAddedRef = useRef(lastAddedAt);
@@ -105,6 +107,7 @@ function Header() {
           <Link to="/shop?sort=newest" className="nav-link">New In</Link>
           <Link to="/shop?sale=true" className="nav-link">Sale</Link>
           <Link to="/about" className="nav-link">About</Link>
+          {isAdmin && <Link to="/admin/products" className="nav-link">Admin</Link>}
         </nav>
 
         {/* Utilities */}

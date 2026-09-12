@@ -1,0 +1,83 @@
+.admin-product-form-page {
+  max-width: 720px;
+}
+
+.admin-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.admin-form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.admin-form-row .admin-form-field {
+  flex: 1;
+}
+
+.admin-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.admin-form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-burgundy);
+}
+
+.admin-form-field input,
+.admin-form-field select,
+.admin-form-field textarea {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background-color: var(--color-soft-white);
+  color: var(--color-text-primary);
+}
+
+.admin-form-field input:focus,
+.admin-form-field select:focus,
+.admin-form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-burgundy);
+  box-shadow: 0 0 0 2px rgba(255, 250, 250, 0.15);
+}
+
+.admin-form-checkboxes {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.admin-form-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.admin-form-actions .btn {
+  padding: 0 var(--spacing-2xl);
+  min-height: 44px;
+}
+
+.admin-cancel-btn {
+  background: none;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-decoration: underline;
+}

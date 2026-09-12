@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import RequireAdmin from './components/RequireAdmin';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
@@ -8,6 +9,10 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Account from './pages/Account';
 import ResetPassword from './pages/ResetPassword';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminProductForm from './pages/admin/AdminProductForm';
+import AdminComingSoon from './pages/admin/AdminComingSoon';
 
 function App() {
   return (
@@ -23,6 +28,26 @@ function App() {
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/account" element={<Account />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+
+              <Route
+                path="/admin"
+                element={
+                  <RequireAdmin>
+                    <AdminLayout />
+                  </RequireAdmin>
+                }
+              >
+                <Route index element={<Navigate to="/admin/products" replace />} />
+                <Route path="dashboard" element={<AdminComingSoon title="Dashboard" />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/new" element={<AdminProductForm />} />
+                <Route path="products/:id" element={<AdminProductForm />} />
+                <Route path="categories" element={<AdminComingSoon title="Categories" />} />
+                <Route path="orders" element={<AdminComingSoon title="Orders" />} />
+                <Route path="customers" element={<AdminComingSoon title="Customers" />} />
+                <Route path="inventory" element={<AdminComingSoon title="Inventory" />} />
+                <Route path="promotions" element={<AdminComingSoon title="Promotions" />} />
+              </Route>
             </Routes>
           </div>
         </CartProvider>
