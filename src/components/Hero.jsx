@@ -1,14 +1,18 @@
+import heroVideo from '../assets/hero-video.mp4';
 import './Hero.css';
 
 function Hero() {
   return (
     <section className="hero" aria-label="Featured campaign">
       <div className="hero-image-wrap">
-        <img
-          src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=1600&q=80"
-          alt="Model wearing premium burgundy-toned hair extensions"
+        <video
           className="hero-image"
-          fetchpriority="high"
+          src={heroVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-label="The Blend.Co campaign video"
         />
       </div>
       <div className="hero-content">

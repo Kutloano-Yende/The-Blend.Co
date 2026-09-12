@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './BrandStory.css';
 
 function BrandStory() {
@@ -24,7 +25,7 @@ function BrandStory() {
           quality that lasts, and a finish that feels premium every single
           time.
         </p>
-        <a href="#about" className="brand-story-link">Our Story</a>
+        <Link to="/about" className="brand-story-link">Our Story</Link>
       </div>
     </section>
   );

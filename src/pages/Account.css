@@ -1,0 +1,109 @@
+.account-section {
+  padding: var(--spacing-xl) 0 var(--spacing-4xl);
+}
+
+.account-inner {
+  max-width: 440px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: var(--spacing-xl);
+}
+
+.auth-tab {
+  background: none;
+  padding: var(--spacing-sm) 0 var(--spacing-md);
+  font-family: var(--font-display);
+  font-size: var(--text-heading-sm);
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.auth-tab.is-active {
+  color: var(--color-burgundy);
+  border-color: var(--color-burgundy);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.auth-form-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.auth-form-row .form-field {
+  flex: 1;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-burgundy);
+}
+
+.form-field input {
+  font-family: var(--font-body);
+  font-size: var(--text-body-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background-color: var(--color-soft-white);
+  color: var(--color-text-primary);
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: var(--color-burgundy);
+  box-shadow: 0 0 0 2px rgba(255, 250, 250, 0.15);
+}
+
+.auth-submit {
+  min-height: 48px;
+  margin-top: var(--spacing-sm);
+}
+
+.auth-error {
+  color: var(--color-rose);
+  font-size: 13px;
+  background-color: var(--color-surface-alt);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+}
+
+.auth-success {
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  text-align: center;
+}
+
+.auth-success h2 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.auth-success p {
+  color: var(--color-text-secondary);
+}
+
+.account-overview h1 {
+  margin-bottom: var(--spacing-md);
+}
+
+.account-email {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+}

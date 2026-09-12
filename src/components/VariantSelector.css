@@ -54,7 +54,7 @@
   position: relative;
   color: var(--color-text-tertiary);
   border-color: var(--color-border-light);
-  background-color: #f5f2f2;
+  background-color: var(--color-surface-alt);
   cursor: not-allowed;
 }
 

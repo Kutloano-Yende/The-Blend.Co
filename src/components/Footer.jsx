@@ -1,17 +1,32 @@
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const footerColumns = [
   {
     heading: 'Shop',
-    links: ['Hair', 'Hair Care', 'Beauty', 'New In', 'Sale'],
+    links: [
+      { label: 'Hair', to: '/shop?category=hair' },
+      { label: 'Hair Care', to: '/shop?category=hair-care' },
+      { label: 'Beauty', to: '/shop?category=beauty' },
+      { label: 'New In', to: '/shop?sort=newest' },
+      { label: 'Sale', to: '/shop?sale=true' },
+    ],
   },
   {
     heading: 'Support',
-    links: ['Contact Us', 'Shipping', 'Returns', 'FAQ'],
+    links: [
+      { label: 'Contact Us', to: '/contact' },
+      { label: 'Shipping', to: '#' },
+      { label: 'Returns', to: '#' },
+      { label: 'FAQ', to: '#' },
+    ],
   },
   {
     heading: 'Company',
-    links: ['About Us', 'Wholesale'],
+    links: [
+      { label: 'About Us', to: '/about' },
+      { label: 'Wholesale', to: '#' },
+    ],
   },
 ];
 
@@ -30,8 +45,8 @@ function Footer() {
               <h3 className="footer-column-heading">{col.heading}</h3>
               <ul>
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a href="#">{link}</a>
+                  <li key={link.label}>
+                    <Link to={link.to}>{link.label}</Link>
                   </li>
                 ))}
               </ul>

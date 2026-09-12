@@ -104,11 +104,12 @@
   padding: 0 var(--spacing-md);
   height: 44px;
   color: var(--color-text-tertiary);
+  background-color: var(--color-soft-white);
 }
 
 .shop-search:focus-within {
   border-color: var(--color-burgundy);
-  box-shadow: 0 0 0 2px rgba(74, 36, 57, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 250, 250, 0.15);
 }
 
 .shop-search input {
@@ -118,6 +119,7 @@
   font-family: var(--font-body);
   font-size: var(--text-body-md);
   color: var(--color-text-primary);
+  background-color: transparent;
   height: 100%;
 }
 

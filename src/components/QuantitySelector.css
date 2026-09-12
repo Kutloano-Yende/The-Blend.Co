@@ -33,7 +33,7 @@
 }
 
 .quantity-btn:hover:not(:disabled) {
-  background-color: rgba(74, 36, 57, 0.05);
+  background-color: rgba(255, 250, 250, 0.08);
 }
 
 .quantity-btn:disabled {

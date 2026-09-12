@@ -1,17 +1,25 @@
 /* The Blend.Co Design Tokens */
 
 :root {
-  /* Brand Colors */
-  --color-burgundy: #4A2439;
+  /* Brand Colors — swapped for the dark theme: burgundy is now the
+     dominant page background, soft-white is the ink/accent color.
+     Names kept as-is so the hundred+ existing var() references below
+     still resolve correctly; only the values moved. */
+  --color-burgundy: #FFFAFA;
   --color-rose: #E7A7B5;
-  --color-soft-white: #FFFAFA;
+  --color-soft-white: #4A2439;
 
-  /* Supporting Colors */
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #666666;
-  --color-text-tertiary: #999999;
-  --color-border-light: #E8E8E8;
+  /* Supporting Colors — re-tuned for light text on a dark page */
+  --color-text-primary: #F3E7EC;
+  --color-text-secondary: #C2A6B0;
+  --color-text-tertiary: #9C7F89;
+  --color-border-light: rgba(243, 231, 236, 0.14);
   --color-bg-overlay: rgba(74, 36, 57, 0.85);
+
+  /* New: fixed tones that must NOT invert with the theme swap above */
+  --color-ink-fixed: #2E1523;       /* stable dark text on the rose accent */
+  --color-surface-alt: #5C2F49;     /* lighter-than-page surface for skeletons/alt sections */
+  --color-surface-alt-highlight: #6E3A57; /* shimmer highlight on --color-surface-alt */
 
   /* Typography */
   --font-display: 'Cormorant Garamond', 'Playfair Display', serif;

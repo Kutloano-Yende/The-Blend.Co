@@ -7,7 +7,7 @@
 .skeleton-image {
   aspect-ratio: 1 / 1.2;
   border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #f0ebeb 25%, #f6f2f2 37%, #f0ebeb 63%);
+  background: linear-gradient(90deg, var(--color-surface-alt) 25%, var(--color-surface-alt-highlight) 37%, var(--color-surface-alt) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }
@@ -15,7 +15,7 @@
 .skeleton-line {
   height: 12px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #f0ebeb 25%, #f6f2f2 37%, #f0ebeb 63%);
+  background: linear-gradient(90deg, var(--color-surface-alt) 25%, var(--color-surface-alt-highlight) 37%, var(--color-surface-alt) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }

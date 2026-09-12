@@ -88,7 +88,7 @@ function Header() {
 
           <Link to="/shop?sort=newest" className="nav-link">New In</Link>
           <Link to="/shop?sale=true" className="nav-link">Sale</Link>
-          <a href="#about" className="nav-link">About</a>
+          <Link to="/about" className="nav-link">About</Link>
         </nav>
 
         {/* Utilities */}
@@ -106,12 +106,12 @@ function Header() {
           </button>
 
           {/* Account - Desktop */}
-          <a href="#account" className="utility-btn desktop-only" aria-label="Account">
+          <Link to="/account" className="utility-btn desktop-only" aria-label="Account">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-          </a>
+          </Link>
 
           {/* Wishlist - Desktop */}
           <a href="#wishlist" className="utility-btn desktop-only" aria-label={`Wishlist with ${wishlistCount} items`}>
@@ -230,15 +230,15 @@ function Header() {
             <ul className="mobile-menu-list">
               <li><Link to="/shop?sort=newest" onClick={() => setIsMenuOpen(false)}>New In</Link></li>
               <li><Link to="/shop?sale=true" onClick={() => setIsMenuOpen(false)}>Sale</Link></li>
-              <li><a href="#about" onClick={() => setIsMenuOpen(false)}>About</a></li>
+              <li><Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link></li>
             </ul>
           </div>
 
           <div className="mobile-menu-section">
             <h3 className="mobile-menu-heading">Account</h3>
             <ul className="mobile-menu-list">
-              <li><a href="#signin" onClick={() => setIsMenuOpen(false)}>Sign In</a></li>
-              <li><a href="#signup" onClick={() => setIsMenuOpen(false)}>Create Account</a></li>
+              <li><Link to="/account" onClick={() => setIsMenuOpen(false)}>Sign In</Link></li>
+              <li><Link to="/account" onClick={() => setIsMenuOpen(false)}>Create Account</Link></li>
             </ul>
           </div>
         </nav>
