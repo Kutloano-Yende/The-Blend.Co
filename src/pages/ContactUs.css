@@ -71,6 +71,34 @@
 
 .contact-success p {
   color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.contact-success-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.contact-success-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-2xl);
+  min-height: 44px;
+}
+
+.contact-success-actions .auth-link-btn {
+  background: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+}
+
+.contact-success-actions .auth-link-btn:hover {
+  color: var(--color-burgundy);
 }
 
 @media (min-width: 1024px) {

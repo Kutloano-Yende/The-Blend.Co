@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -84,8 +84,13 @@ function ResetPassword() {
                 </button>
               </div>
             ) : hasRecoverySession === false ? (
-              <div className="auth-error" role="alert">
-                This reset link is invalid or has expired. Request a new one from the account page.
+              <div>
+                <p className="auth-error" role="alert">
+                  This reset link is invalid or has expired. Request a new one from the account page.
+                </p>
+                <Link to="/account" className="btn btn-primary auth-submit" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginTop: 'var(--spacing-md)' }}>
+                  Back to Sign In
+                </Link>
               </div>
             ) : (
               <form className="auth-form" onSubmit={handleSubmit}>

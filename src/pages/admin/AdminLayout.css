@@ -18,9 +18,21 @@
   font-family: var(--font-display);
   font-size: var(--text-heading-sm);
   color: var(--color-burgundy);
+  padding: 0 var(--spacing-lg) var(--spacing-sm);
+}
+
+.admin-back-to-store {
+  display: block;
   padding: 0 var(--spacing-lg) var(--spacing-lg);
   border-bottom: 1px solid var(--color-border-light);
   margin-bottom: var(--spacing-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.admin-back-to-store:hover {
+  color: var(--color-burgundy);
 }
 
 .admin-nav {

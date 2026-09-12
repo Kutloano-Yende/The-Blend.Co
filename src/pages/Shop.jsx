@@ -37,6 +37,7 @@ function Shop() {
   const initialSubcategory = searchParams.get('subcategory') || null;
   const initialSort = searchParams.get('sort') || 'newest';
   const initialSaleOnly = searchParams.get('sale') === 'true';
+  const initialSearch = searchParams.get('search') || '';
 
   const [status, setStatus] = useState('loading');
   const [products, setProducts] = useState([]);
@@ -44,7 +45,7 @@ function Shop() {
   const [category, setCategory] = useState(initialCategory);
   const [subcategory, setSubcategory] = useState(initialSubcategory);
   const [filters, setFilters] = useState(
-    makeEmptyFilters({ sort: initialSort, saleOnly: initialSaleOnly })
+    makeEmptyFilters({ sort: initialSort, saleOnly: initialSaleOnly, search: initialSearch })
   );
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 

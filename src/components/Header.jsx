@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
@@ -15,10 +16,20 @@ function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
   const [showAddedToast, setShowAddedToast] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { items: cartItems, cartCount, cartTotal, lastAddedAt, updateQuantity, removeItem } = useCart();
   const { isAdmin } = useAuth();
-  const wishlistCount = 0;
+  const { wishlistCount } = useWishlist();
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const trimmed = searchQuery.trim();
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    navigate(trimmed ? `/shop?search=${encodeURIComponent(trimmed)}` : '/shop');
+  };
 
   const lastAddedRef = useRef(lastAddedAt);
   useEffect(() => {
@@ -133,11 +144,12 @@ function Header() {
           </Link>
 
           {/* Wishlist - Desktop */}
-          <a href="#wishlist" className="utility-btn desktop-only" aria-label={`Wishlist with ${wishlistCount} items`}>
+          <Link to="/wishlist" className="utility-btn desktop-only" aria-label={`Wishlist with ${wishlistCount} items`}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
             </svg>
-          </a>
+            {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
+          </Link>
 
           {/* Search - Mobile */}
           <button
@@ -198,22 +210,31 @@ function Header() {
 
       {/* Search Modal - Mobile */}
       {isSearchOpen && (
-        <div className="search-modal">
+        <form className="search-modal" onSubmit={handleSearchSubmit} role="search">
           <input
             type="text"
             className="search-input"
             placeholder="Search products..."
             aria-label="Search products"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             autoFocus
           />
+          <button type="submit" className="search-submit-btn" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
           <button
+            type="button"
             className="close-btn"
             onClick={() => setIsSearchOpen(false)}
             aria-label="Close search"
           >
             ✕
           </button>
-        </div>
+        </form>
       )}
 
       {/* Mobile Menu Drawer */}

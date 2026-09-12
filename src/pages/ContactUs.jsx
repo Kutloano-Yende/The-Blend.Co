@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -17,6 +18,11 @@ function ContactUs() {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
     setStatus('sent');
+  };
+
+  const handleSendAnother = () => {
+    setFormData({ name: '', email: '', message: '' });
+    setStatus('idle');
   };
 
   return (
@@ -44,6 +50,14 @@ function ContactUs() {
                 <div className="contact-success" role="status">
                   <h2>Message sent</h2>
                   <p>Thanks for reaching out — we'll be in touch soon.</p>
+                  <div className="contact-success-actions">
+                    <button type="button" className="btn btn-primary" onClick={handleSendAnother}>
+                      Send Another Message
+                    </button>
+                    <Link to="/" className="auth-link-btn">
+                      Back to Home
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <>

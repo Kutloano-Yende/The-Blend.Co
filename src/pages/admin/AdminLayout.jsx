@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './AdminLayout.css';
 
@@ -25,6 +25,9 @@ function AdminLayout() {
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <div className="admin-sidebar-brand">The Blend.Co</div>
+        <Link to="/" className="admin-back-to-store">
+          ← Back to Store
+        </Link>
         <nav className="admin-nav">
           {NAV_ITEMS.map((item) => (
             <NavLink

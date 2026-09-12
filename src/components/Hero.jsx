@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import heroVideo from '../assets/hero-video.mp4';
 import './Hero.css';
 
@@ -21,9 +22,9 @@ function Hero() {
           Premium wigs, bundles and hair care crafted for the modern woman who
           expects more from her beauty ritual.
         </p>
-        <a href="#shop" className="btn btn-primary hero-cta">
+        <Link to="/shop" className="btn btn-primary hero-cta">
           Shop Now
-        </a>
+        </Link>
       </div>
     </section>
   );

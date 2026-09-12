@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
 import RequireAdmin from './components/RequireAdmin';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -9,6 +10,7 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Account from './pages/Account';
 import ResetPassword from './pages/ResetPassword';
+import Wishlist from './pages/Wishlist';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
@@ -19,6 +21,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
+        <WishlistProvider>
           <div className="app">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -28,6 +31,7 @@ function App() {
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/account" element={<Account />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/wishlist" element={<Wishlist />} />
 
               <Route
                 path="/admin"
@@ -50,6 +54,7 @@ function App() {
               </Route>
             </Routes>
           </div>
+        </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

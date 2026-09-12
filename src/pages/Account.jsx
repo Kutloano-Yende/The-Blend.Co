@@ -6,7 +6,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { useAuth } from '../context/AuthContext';
 import './Account.css';
 
-function SignUpForm({ onSuccess }) {
+function SignUpForm({ onSuccess, onBack }) {
   const { signUp } = useAuth();
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '' });
   const [status, setStatus] = useState('idle');
@@ -49,6 +49,9 @@ function SignUpForm({ onSuccess }) {
       <div className="auth-success" role="status">
         <h2>Check your email</h2>
         <p>We've sent a confirmation link to {formData.email}. Confirm your address to finish creating your account.</p>
+        <button type="button" className="auth-link-btn" style={{ marginTop: 'var(--spacing-md)' }} onClick={onBack}>
+          Back to Sign In
+        </button>
       </div>
     );
   }
@@ -310,7 +313,9 @@ function Account() {
                 {authView === 'signin' && (
                   <SignInForm onSuccess={handleAuthSuccess} onForgotPassword={() => setAuthView('forgot')} />
                 )}
-                {authView === 'signup' && <SignUpForm onSuccess={handleAuthSuccess} />}
+                {authView === 'signup' && (
+                  <SignUpForm onSuccess={handleAuthSuccess} onBack={() => setAuthView('signin')} />
+                )}
                 {authView === 'forgot' && <ForgotPasswordForm onBack={() => setAuthView('signin')} />}
               </>
             )}

@@ -15,6 +15,7 @@ import EmptyState from '../components/EmptyState';
 import { fetchProduct } from '../data/fetchProduct';
 import { getRelatedProducts, categories, SHIPPING_INFO, RETURNS_INFO } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import './ProductDetail.css';
 
 function formatZAR(amount) {
@@ -35,12 +36,12 @@ const VARIANT_ORDER = ['length', 'colour', 'texture', 'density', 'capSize', 'siz
 function ProductDetail() {
   const { id } = useParams();
   const { addItem } = useCart();
+  const { isWishlisted: isInWishlist, toggle: toggleWishlist } = useWishlist();
   const [status, setStatus] = useState('loading');
   const [product, setProduct] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedVariants, setSelectedVariants] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [addState, setAddState] = useState('idle');
   const [buyState, setBuyState] = useState('idle');
 
@@ -78,6 +79,7 @@ function ProductDetail() {
   const related = useMemo(() => (product ? getRelatedProducts(product) : []), [product]);
 
   const categoryLabel = product ? categories.find((c) => c.value === product.category)?.label : '';
+  const isWishlisted = product ? isInWishlist(product.id) : false;
 
   const handleAddToBag = () => {
     if (!product || !product.inStock || addState === 'loading') return;
@@ -263,7 +265,14 @@ function ProductDetail() {
                     className={`btn-wishlist-pdp ${isWishlisted ? 'is-active' : ''}`}
                     aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                     aria-pressed={isWishlisted}
-                    onClick={() => setIsWishlisted(!isWishlisted)}
+                    onClick={() =>
+                      toggleWishlist({
+                        id: product.id,
+                        name: product.name,
+                        image: product.image || product.images?.[0]?.src,
+                        price: product.price,
+                      })
+                    }
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill={isWishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
