@@ -114,7 +114,7 @@ function SignUpForm({ onSuccess }) {
   );
 }
 
-function SignInForm({ onSuccess }) {
+function SignInForm({ onSuccess, onForgotPassword }) {
   const { signIn } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [status, setStatus] = useState('idle');
@@ -169,8 +169,72 @@ function SignInForm({ onSuccess }) {
         />
       </div>
 
+      <button type="button" className="auth-link-btn" onClick={onForgotPassword}>
+        Forgot password?
+      </button>
+
       <button type="submit" className="btn btn-primary auth-submit" disabled={status === 'loading'}>
         {status === 'loading' ? 'Signing In…' : 'Sign In'}
+      </button>
+    </form>
+  );
+}
+
+function ForgotPasswordForm({ onBack }) {
+  const { requestPasswordReset } = useAuth();
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMessage('');
+
+    const { error } = await requestPasswordReset(email);
+
+    if (error) {
+      setErrorMessage(error.message);
+      setStatus('idle');
+      return;
+    }
+
+    setSent(true);
+    setStatus('idle');
+  };
+
+  if (sent) {
+    return (
+      <div className="auth-success" role="status">
+        <h2>Check your email</h2>
+        <p>If an account exists for {email}, we've sent a link to reset your password.</p>
+      </div>
+    );
+  }
+
+  return (
+    <form className="auth-form" onSubmit={handleSubmit}>
+      {errorMessage && <p className="auth-error" role="alert">{errorMessage}</p>}
+
+      <div className="form-field">
+        <label htmlFor="forgot-email">Email</label>
+        <input
+          id="forgot-email"
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+
+      <button type="submit" className="btn btn-primary auth-submit" disabled={status === 'loading'}>
+        {status === 'loading' ? 'Sending…' : 'Send Reset Link'}
+      </button>
+
+      <button type="button" className="auth-link-btn" onClick={onBack}>
+        Back to Sign In
       </button>
     </form>
   );
@@ -198,7 +262,7 @@ function AccountOverview() {
 
 function Account() {
   const { user, isLoading } = useAuth();
-  const [activeTab, setActiveTab] = useState('signin');
+  const [authView, setAuthView] = useState('signin');
   const navigate = useNavigate();
 
   const handleAuthSuccess = () => {
@@ -220,32 +284,34 @@ function Account() {
               <AccountOverview />
             ) : (
               <>
-                <div className="auth-tabs" role="tablist">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === 'signin'}
-                    className={`auth-tab ${activeTab === 'signin' ? 'is-active' : ''}`}
-                    onClick={() => setActiveTab('signin')}
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === 'signup'}
-                    className={`auth-tab ${activeTab === 'signup' ? 'is-active' : ''}`}
-                    onClick={() => setActiveTab('signup')}
-                  >
-                    Create Account
-                  </button>
-                </div>
-
-                {activeTab === 'signin' ? (
-                  <SignInForm onSuccess={handleAuthSuccess} />
-                ) : (
-                  <SignUpForm onSuccess={handleAuthSuccess} />
+                {authView !== 'forgot' && (
+                  <div className="auth-tabs" role="tablist">
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={authView === 'signin'}
+                      className={`auth-tab ${authView === 'signin' ? 'is-active' : ''}`}
+                      onClick={() => setAuthView('signin')}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={authView === 'signup'}
+                      className={`auth-tab ${authView === 'signup' ? 'is-active' : ''}`}
+                      onClick={() => setAuthView('signup')}
+                    >
+                      Create Account
+                    </button>
+                  </div>
                 )}
+
+                {authView === 'signin' && (
+                  <SignInForm onSuccess={handleAuthSuccess} onForgotPassword={() => setAuthView('forgot')} />
+                )}
+                {authView === 'signup' && <SignUpForm onSuccess={handleAuthSuccess} />}
+                {authView === 'forgot' && <ForgotPasswordForm onBack={() => setAuthView('signin')} />}
               </>
             )}
           </div>

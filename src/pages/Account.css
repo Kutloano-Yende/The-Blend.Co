@@ -76,6 +76,20 @@
   margin-top: var(--spacing-sm);
 }
 
+.auth-link-btn {
+  background: none;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  margin-top: -8px;
+}
+
+.auth-link-btn:hover {
+  color: var(--color-burgundy);
+}
+
 .auth-error {
   color: var(--color-rose);
   font-size: 13px;

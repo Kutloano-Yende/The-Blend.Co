@@ -40,6 +40,18 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
   };
 
+  const requestPasswordReset = async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    return { error };
+  };
+
+  const updatePassword = async (password) => {
+    const { error } = await supabase.auth.updateUser({ password });
+    return { error };
+  };
+
   const value = {
     session,
     user: session?.user ?? null,
@@ -47,6 +59,8 @@ export function AuthProvider({ children }) {
     signUp,
     signIn,
     signOut,
+    requestPasswordReset,
+    updatePassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

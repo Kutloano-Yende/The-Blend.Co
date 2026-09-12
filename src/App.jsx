@@ -6,6 +6,7 @@ import ProductDetail from './pages/ProductDetail';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Account from './pages/Account';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </div>
       </AuthProvider>
