@@ -42,8 +42,8 @@ function ResetPassword() {
     e.preventDefault();
     setErrorMessage('');
 
-    if (password.length < 6) {
-      setErrorMessage('Password must be at least 6 characters.');
+    if (password.length < 8) {
+      setErrorMessage('Password must be at least 8 characters.');
       return;
     }
     if (password !== confirmPassword) {
@@ -102,7 +102,7 @@ function ResetPassword() {
                   <input
                     id="new-password"
                     type="password"
-                    minLength={6}
+                    minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -114,7 +114,7 @@ function ResetPassword() {
                   <input
                     id="confirm-password"
                     type="password"
-                    minLength={6}
+                    minLength={8}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required

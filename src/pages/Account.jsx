@@ -103,7 +103,7 @@ function SignUpForm({ onSuccess, onBack }) {
           id="signup-password"
           name="password"
           type="password"
-          minLength={6}
+          minLength={8}
           value={formData.password}
           onChange={handleChange}
           required
