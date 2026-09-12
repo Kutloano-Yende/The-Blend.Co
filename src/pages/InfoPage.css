@@ -1,0 +1,14 @@
+.info-page-section {
+  padding: var(--spacing-xl) 0 var(--spacing-4xl);
+}
+
+.info-page-inner {
+  max-width: 640px;
+}
+
+.info-page-inner p {
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-md);
+  font-size: var(--text-body-lg);
+  line-height: var(--line-body);
+}

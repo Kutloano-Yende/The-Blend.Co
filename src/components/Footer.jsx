@@ -16,8 +16,8 @@ const footerColumns = [
     heading: 'Support',
     links: [
       { label: 'Contact Us', to: '/contact' },
-      { label: 'Shipping', to: '#' },
-      { label: 'Returns', to: '#' },
+      { label: 'Shipping', to: '/shipping' },
+      { label: 'Returns', to: '/returns' },
       { label: 'FAQ', to: '#' },
     ],
   },

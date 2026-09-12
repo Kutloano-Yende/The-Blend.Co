@@ -66,6 +66,23 @@ function Shop() {
     loadProducts();
   }, [loadProducts]);
 
+  // Re-sync category/subcategory/sort/sale/search whenever the URL's query
+  // string changes — including a link click while already on this page,
+  // which React Router does not remount for (only the initial useState above
+  // would otherwise run).
+  useEffect(() => {
+    setCategory(searchParams.get('category') || 'all');
+    setSubcategory(searchParams.get('subcategory') || null);
+    setFilters(
+      makeEmptyFilters({
+        sort: searchParams.get('sort') || 'newest',
+        saleOnly: searchParams.get('sale') === 'true',
+        search: searchParams.get('search') || '',
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   const handleCategoryChange = (value) => {
     setCategory(value);
     setSubcategory(null);
