@@ -293,7 +293,7 @@ function ProductDetail() {
                     <circle cx="5.5" cy="18.5" r="2.5"></circle>
                     <circle cx="18.5" cy="18.5" r="2.5"></circle>
                   </svg>
-                  Free delivery on orders over R750. Dispatched within 1-2 working days.
+                  Shipped via PAXI — Normal R60, Standard R110.
                 </p>
 
                 <div className="pdp-expandables">

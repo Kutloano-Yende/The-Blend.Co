@@ -7,7 +7,7 @@ import fullFrontalBob8 from '../assets/products/full-frontal-bob-8.jpg';
 import fullFrontal284 from '../assets/products/full-frontal-28-4.jpg';
 
 export const SHIPPING_INFO =
-  'Free standard delivery on orders over R750. Standard delivery takes 3-5 working days; express delivery (1-2 working days) is available at checkout. Orders are dispatched from our Johannesburg studio and tracked from pack to door.';
+  'We ship every order via PAXI. Normal delivery is R60, and Standard delivery is R110.';
 
 export const RETURNS_INFO =
   'We accept returns within 14 days of delivery on unused, unopened items in original packaging. Due to hygiene reasons, hair extensions, wigs, and lashes can only be returned if the packaging and any protective seals are unopened. Refunds are processed within 5-7 working days of us receiving your return.';
