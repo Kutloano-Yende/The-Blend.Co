@@ -1,16 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { useCart } from '../context/CartContext';
 import './Header.css';
+
+function formatZAR(amount) {
+  return `R${amount.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+  const [showAddedToast, setShowAddedToast] = useState(false);
 
-  const cartCount = 0;
+  const { items: cartItems, cartCount, cartTotal, lastAddedAt, updateQuantity, removeItem } = useCart();
   const wishlistCount = 0;
+
+  const lastAddedRef = useRef(lastAddedAt);
+  useEffect(() => {
+    if (lastAddedAt && lastAddedAt !== lastAddedRef.current) {
+      lastAddedRef.current = lastAddedAt;
+      setShowAddedToast(true);
+      const timeout = setTimeout(() => setShowAddedToast(false), 2200);
+      return () => clearTimeout(timeout);
+    }
+  }, [lastAddedAt]);
 
   return (
     <header className="header">
@@ -133,18 +149,25 @@ function Header() {
           </button>
 
           {/* Cart */}
-          <button
-            className="utility-btn"
-            aria-label={`Cart with ${cartCount} items`}
-            onClick={() => setIsCartOpen(!isCartOpen)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="9" cy="21" r="1"></circle>
-              <circle cx="20" cy="21" r="1"></circle>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            {cartCount > 0 && <span className="badge">{cartCount}</span>}
-          </button>
+          <div className="cart-btn-wrap">
+            <button
+              className="utility-btn"
+              aria-label={`Cart with ${cartCount} items`}
+              onClick={() => setIsCartOpen(!isCartOpen)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              {cartCount > 0 && <span className="badge">{cartCount}</span>}
+            </button>
+            {showAddedToast && (
+              <div className="cart-added-toast" role="status">
+                Added to cart
+              </div>
+            )}
+          </div>
 
           {/* Hamburger Menu - Mobile */}
           <button
@@ -260,15 +283,71 @@ function Header() {
               ✕
             </button>
           </div>
-          <div className="cart-drawer-empty">
-            <p>Your cart is empty</p>
-            <button
-              className="btn btn-primary"
-              onClick={() => setIsCartOpen(false)}
-            >
-              Continue Shopping
-            </button>
-          </div>
+
+          {cartItems.length === 0 ? (
+            <div className="cart-drawer-empty">
+              <p>Your cart is empty</p>
+              <button
+                className="btn btn-primary"
+                onClick={() => setIsCartOpen(false)}
+              >
+                Continue Shopping
+              </button>
+            </div>
+          ) : (
+            <>
+              <ul className="cart-items-list">
+                {cartItems.map((item) => (
+                  <li className="cart-item" key={item.key}>
+                    <img src={item.image} alt="" className="cart-item-image" />
+                    <div className="cart-item-body">
+                      <p className="cart-item-name">{item.name}</p>
+                      {item.variants && (
+                        <p className="cart-item-variants">
+                          {Object.values(item.variants).join(' · ')}
+                        </p>
+                      )}
+                      <p className="cart-item-price">{formatZAR(item.price)}</p>
+                      <div className="cart-item-qty">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.key, item.quantity - 1)}
+                          aria-label={`Decrease quantity of ${item.name}`}
+                        >
+                          −
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(item.key, item.quantity + 1)}
+                          aria-label={`Increase quantity of ${item.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="cart-item-remove"
+                      onClick={() => removeItem(item.key)}
+                      aria-label={`Remove ${item.name} from cart`}
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <div className="cart-drawer-footer">
+                <div className="cart-subtotal">
+                  <span>Subtotal</span>
+                  <span>{formatZAR(cartTotal)}</span>
+                </div>
+                <button className="btn btn-primary cart-checkout-btn" disabled>
+                  Checkout (coming soon)
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </header>

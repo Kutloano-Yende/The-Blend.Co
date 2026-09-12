@@ -3,7 +3,7 @@ import ProductCard from './ProductCard';
 import { products as allProducts } from '../data/products';
 import './FeaturedProducts.css';
 
-const FEATURED_IDS = ['h1', 'h2', 'h3', 'h4'];
+const FEATURED_IDS = ['h9', 'h10', 'h11', 'h12'];
 const products = FEATURED_IDS.map((id) => allProducts.find((p) => p.id === id)).filter(Boolean);
 
 function FeaturedProducts() {

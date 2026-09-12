@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
 function formatZAR(amount) {
@@ -7,6 +8,7 @@ function formatZAR(amount) {
 }
 
 function ProductCard({ product }) {
+  const { addItem } = useCart();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -20,6 +22,7 @@ function ProductCard({ product }) {
     if (!inStock || isAdding) return;
     setIsAdding(true);
     setTimeout(() => {
+      addItem({ id, name, image, price });
       setIsAdding(false);
       setJustAdded(true);
       setTimeout(() => setJustAdded(false), 2000);

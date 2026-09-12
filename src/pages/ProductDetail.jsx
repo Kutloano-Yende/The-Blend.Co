@@ -14,6 +14,7 @@ import ErrorState from '../components/ErrorState';
 import EmptyState from '../components/EmptyState';
 import { fetchProduct } from '../data/fetchProduct';
 import { getRelatedProducts, categories, SHIPPING_INFO, RETURNS_INFO } from '../data/products';
+import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 function formatZAR(amount) {
@@ -33,6 +34,7 @@ const VARIANT_ORDER = ['length', 'colour', 'texture', 'density', 'capSize', 'siz
 
 function ProductDetail() {
   const { id } = useParams();
+  const { addItem } = useCart();
   const [status, setStatus] = useState('loading');
   const [product, setProduct] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -81,6 +83,16 @@ function ProductDetail() {
     if (!product || !product.inStock || addState === 'loading') return;
     setAddState('loading');
     setTimeout(() => {
+      addItem(
+        {
+          id: product.id,
+          name: product.name,
+          image: product.image || product.images?.[0]?.src,
+          price: product.price,
+          variants: Object.keys(selectedVariants).length > 0 ? selectedVariants : undefined,
+        },
+        quantity
+      );
       setAddState('success');
       setTimeout(() => setAddState('idle'), 2500);
     }, 800);
@@ -90,6 +102,16 @@ function ProductDetail() {
     if (!product || !product.inStock || buyState === 'loading') return;
     setBuyState('loading');
     setTimeout(() => {
+      addItem(
+        {
+          id: product.id,
+          name: product.name,
+          image: product.image || product.images?.[0]?.src,
+          price: product.price,
+          variants: Object.keys(selectedVariants).length > 0 ? selectedVariants : undefined,
+        },
+        quantity
+      );
       setBuyState('success');
     }, 800);
   };
