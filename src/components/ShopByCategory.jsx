@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
+import hairCategoryImage from '../assets/products/1.jpeg';
 import './ShopByCategory.css';
 
 const categories = [
   {
     name: 'Hair',
     href: '/shop?category=hair',
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=80',
-    alt: 'Woman with long flowing textured hair extensions',
+    image: hairCategoryImage,
+    alt: 'Burgundy curly lace front wig',
   },
   {
     name: 'Hair Care',
