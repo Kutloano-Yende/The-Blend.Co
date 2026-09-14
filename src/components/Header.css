@@ -560,10 +560,9 @@
 .cart-checkout-btn {
   width: 100%;
   min-height: 48px;
-}
-
-.cart-checkout-btn:disabled {
-  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Utility Classes */

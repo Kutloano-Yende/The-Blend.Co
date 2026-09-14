@@ -23,6 +23,16 @@ function Header() {
   const { wishlistCount } = useWishlist();
   const navigate = useNavigate();
 
+  const shopMenuCloseTimeout = useRef(null);
+  const openShopMenu = () => {
+    clearTimeout(shopMenuCloseTimeout.current);
+    setIsShopMenuOpen(true);
+  };
+  const closeShopMenu = () => {
+    shopMenuCloseTimeout.current = setTimeout(() => setIsShopMenuOpen(false), 250);
+  };
+  useEffect(() => () => clearTimeout(shopMenuCloseTimeout.current), []);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const trimmed = searchQuery.trim();
@@ -55,8 +65,8 @@ function Header() {
         <nav className="header-nav desktop-only">
           <div
             className="nav-item-has-menu"
-            onMouseEnter={() => setIsShopMenuOpen(true)}
-            onMouseLeave={() => setIsShopMenuOpen(false)}
+            onMouseEnter={openShopMenu}
+            onMouseLeave={closeShopMenu}
             onKeyDown={(e) => {
               if (e.key === 'Escape') setIsShopMenuOpen(false);
             }}
@@ -70,7 +80,7 @@ function Header() {
               className="nav-link nav-link-btn"
               aria-expanded={isShopMenuOpen}
               aria-haspopup="true"
-              onFocus={() => setIsShopMenuOpen(true)}
+              onFocus={openShopMenu}
             >
               Shop
             </button>
@@ -366,9 +376,13 @@ function Header() {
                   <span>Subtotal</span>
                   <span>{formatZAR(cartTotal)}</span>
                 </div>
-                <button className="btn btn-primary cart-checkout-btn" disabled>
-                  Checkout (coming soon)
-                </button>
+                <Link
+                  to="/checkout"
+                  className="btn btn-primary cart-checkout-btn"
+                  onClick={() => setIsCartOpen(false)}
+                >
+                  Checkout
+                </Link>
               </div>
             </>
           )}

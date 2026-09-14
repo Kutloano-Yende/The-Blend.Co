@@ -5,6 +5,12 @@ import fullFrontalWaterWave30Main from '../assets/products/full-frontal-water-wa
 import fullFrontalWaterWave30Alt from '../assets/products/full-frontal-water-wave-30-alt.jpg';
 import fullFrontalBob8 from '../assets/products/full-frontal-bob-8.jpg';
 import fullFrontal284 from '../assets/products/full-frontal-28-4.jpg';
+import burgundyCurlyMain from '../assets/products/1.jpeg';
+import burgundyCurlyAlt from '../assets/products/553d6ae4-d920-4d2c-bebf-56cabde274c9.jpeg';
+import blackCurlyHeadband from '../assets/products/11.jpeg';
+import blackStraightHeadbandMain from '../assets/products/51219ab2-6c32-444e-ae00-146d5d3bd6cc.jpeg';
+import blackStraightHeadbandAlt from '../assets/products/W.20.28.jpg';
+import blackStraightHeadbandAlt2 from '../assets/products/WhatsApp Image 2026-09-03 at 08.23.52 (1).jpeg';
 
 export const SHIPPING_INFO =
   'We ship every order via PAXI. Normal delivery is R60, and Standard delivery is R110.';
@@ -150,6 +156,80 @@ export const products = [
     detailsHeading: 'Hair Details',
     detailsContent: 'Full frontal lace construction, 28 inch length, colour #4. Can be heat styled with care.',
     careContent: 'Detangle from ends upward before wearing. Wash sparingly with sulphate-free products.',
+    reviews: [],
+  },
+  {
+    id: 'h14',
+    name: 'Burgundy Curly Lace Front Wig',
+    category: 'hair',
+    subcategory: 'wigs',
+    texture: 'Curly',
+    length: '26"',
+    rating: 0,
+    reviewCount: 0,
+    price: 700,
+    originalPrice: null,
+    image: burgundyCurlyMain,
+    imageAlt: 'Burgundy curly lace front wig',
+    images: [
+      { src: burgundyCurlyMain, alt: 'Burgundy curly lace front wig, front view' },
+      { src: burgundyCurlyAlt, alt: 'Burgundy curly lace front wig, alternate view' },
+    ],
+    inStock: true,
+    createdAt: '2026-09-13',
+    description: 'A bold burgundy lace front wig with deep, defined curls for a rich, statement colour. Pre-plucked hairline for a natural, seamless finish. (Placeholder listing — pricing and details to be confirmed.)',
+    detailsHeading: 'Hair Details',
+    detailsContent: 'Lace front construction, curly texture in a burgundy shade. Can be heat styled with care.',
+    careContent: 'Detangle gently from ends to roots. Refresh curls with a light water and leave-in conditioner mix. Store on a wig stand.',
+    reviews: [],
+  },
+  {
+    id: 'h15',
+    name: 'Black Curly Headband Wig',
+    category: 'hair',
+    subcategory: 'wigs',
+    texture: 'Curly',
+    rating: 0,
+    reviewCount: 0,
+    price: 380,
+    originalPrice: null,
+    image: blackCurlyHeadband,
+    imageAlt: 'Black curly headband wig',
+    images: [
+      { src: blackCurlyHeadband, alt: 'Black curly headband wig, front view' },
+    ],
+    inStock: true,
+    createdAt: '2026-09-13',
+    description: 'A glueless headband wig with natural-looking kinky curls for an easy, no-install everyday look. (Placeholder listing — pricing and details to be confirmed.)',
+    detailsHeading: 'Hair Details',
+    detailsContent: 'Headband wig construction, curly texture. Can be heat styled with care. No lace application or adhesive needed.',
+    careContent: 'Detangle gently from ends to roots. Refresh curls with a light water and leave-in conditioner mix. Store on a wig stand.',
+    reviews: [],
+  },
+  {
+    id: 'h16',
+    name: 'Black Straight Headband Wig',
+    category: 'hair',
+    subcategory: 'wigs',
+    texture: 'Straight',
+    length: '28"',
+    rating: 0,
+    reviewCount: 0,
+    price: 400,
+    originalPrice: null,
+    image: blackStraightHeadbandMain,
+    imageAlt: 'Black straight headband wig, 28 inch',
+    images: [
+      { src: blackStraightHeadbandMain, alt: 'Black straight headband wig, front view' },
+      { src: blackStraightHeadbandAlt, alt: 'Black straight headband wig, alternate view' },
+      { src: blackStraightHeadbandAlt2, alt: 'Black straight headband wig, second alternate view' },
+    ],
+    inStock: true,
+    createdAt: '2026-09-13',
+    description: 'A long, sleek straight headband wig for an effortless glueless install. (Placeholder listing — pricing and details to be confirmed.)',
+    detailsHeading: 'Hair Details',
+    detailsContent: 'Headband wig construction, straight texture, 28 inch length. Can be heat styled with care. No lace application or adhesive needed.',
+    careContent: 'Wash sparingly with sulphate-free products. Air dry on a wig stand to keep the style.',
     reviews: [],
   },
 

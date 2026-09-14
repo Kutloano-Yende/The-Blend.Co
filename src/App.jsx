@@ -12,6 +12,9 @@ import ContactUs from './pages/ContactUs';
 import Account from './pages/Account';
 import ResetPassword from './pages/ResetPassword';
 import Wishlist from './pages/Wishlist';
+import Checkout from './pages/Checkout';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import CheckoutCancel from './pages/CheckoutCancel';
 import InfoPage from './pages/InfoPage';
 import { SHIPPING_INFO, RETURNS_INFO } from './data/products';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -36,6 +39,9 @@ function App() {
               <Route path="/account" element={<Account />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/success" element={<CheckoutSuccess />} />
+              <Route path="/checkout/cancel" element={<CheckoutCancel />} />
               <Route path="/shipping" element={<InfoPage title="Shipping" content={SHIPPING_INFO} />} />
               <Route path="/returns" element={<InfoPage title="Returns" content={RETURNS_INFO} />} />
 
