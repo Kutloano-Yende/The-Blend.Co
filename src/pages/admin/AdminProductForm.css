@@ -81,3 +81,23 @@
   font-weight: 600;
   text-decoration: underline;
 }
+
+.admin-upload-status {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+.admin-image-preview {
+  display: block;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.admin-image-url-fallback {
+  margin-top: var(--spacing-sm);
+  font-size: 13px;
+}

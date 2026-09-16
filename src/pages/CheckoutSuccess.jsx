@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabaseClient';
+import { downloadInvoicePdf } from '../lib/invoice';
 import './Checkout.css';
 
 function formatZAR(amount) {
@@ -16,6 +17,7 @@ function CheckoutSuccess() {
   const { clearCart } = useCart();
   const [status, setStatus] = useState('loading');
   const [order, setOrder] = useState(null);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     clearCart();
@@ -26,16 +28,18 @@ function CheckoutSuccess() {
       setStatus('error');
       return;
     }
-    supabase
-      .rpc('track_order_by_token', { _token: token })
-      .then(({ data, error }) => {
-        if (error || !data || data.length === 0) {
-          setStatus('error');
-          return;
-        }
-        setOrder(data[0]);
-        setStatus('success');
-      });
+    Promise.all([
+      supabase.rpc('track_order_by_token', { _token: token }),
+      supabase.rpc('get_order_items_by_token', { _token: token }),
+    ]).then(([orderRes, itemsRes]) => {
+      if (orderRes.error || !orderRes.data || orderRes.data.length === 0) {
+        setStatus('error');
+        return;
+      }
+      setOrder(orderRes.data[0]);
+      setItems(itemsRes.data || []);
+      setStatus('success');
+    });
   }, [token]);
 
   return (
@@ -64,7 +68,14 @@ function CheckoutSuccess() {
                 </p>
                 <p>Order total: <strong>{formatZAR(order.total)}</strong></p>
                 <p>A confirmation will be sent to your email once payment is confirmed.</p>
-                <Link to="/shop" className="btn btn-primary">Continue Shopping</Link>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => downloadInvoicePdf(order, items)}
+                >
+                  Download Invoice
+                </button>
+                <Link to="/shop" className="checkout-back-link">Continue Shopping</Link>
               </>
             )}
           </div>

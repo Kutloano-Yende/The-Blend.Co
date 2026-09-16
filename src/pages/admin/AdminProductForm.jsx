@@ -5,6 +5,7 @@ import {
   fetchCategoryOptions,
   createProduct,
   updateProduct,
+  uploadProductImage,
   toSlug,
 } from '../../lib/adminProducts';
 import './AdminProductForm.css';
@@ -37,6 +38,7 @@ function AdminProductForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [slugTouched, setSlugTouched] = useState(isEditMode);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   useEffect(() => {
     fetchCategoryOptions().then(setCategories).catch((err) => setErrorMessage(err.message));
@@ -77,6 +79,22 @@ function AdminProductForm() {
       setFormData((prev) => ({ ...prev, slug: toSlug(value) }));
     }
     if (name === 'slug') setSlugTouched(true);
+  };
+
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setErrorMessage('');
+    setIsUploadingImage(true);
+    try {
+      const url = await uploadProductImage(file);
+      setFormData((prev) => ({ ...prev, primaryImageUrl: url }));
+    } catch (err) {
+      setErrorMessage(`Image upload failed: ${err.message}`);
+    } finally {
+      setIsUploadingImage(false);
+      e.target.value = '';
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -165,8 +183,20 @@ function AdminProductForm() {
         </div>
 
         <div className="admin-form-field">
-          <label htmlFor="primaryImageUrl">Primary Image URL</label>
-          <input id="primaryImageUrl" name="primaryImageUrl" value={formData.primaryImageUrl} onChange={handleChange} placeholder="https://…" />
+          <label htmlFor="imageFile">Product Photo</label>
+          <input id="imageFile" type="file" accept="image/*" onChange={handleImageFileChange} disabled={isUploadingImage} />
+          {isUploadingImage && <p className="admin-upload-status">Uploading…</p>}
+          {formData.primaryImageUrl && (
+            <img src={formData.primaryImageUrl} alt="Product preview" className="admin-image-preview" />
+          )}
+          <input
+            id="primaryImageUrl"
+            name="primaryImageUrl"
+            value={formData.primaryImageUrl}
+            onChange={handleChange}
+            placeholder="Or paste an image URL directly"
+            className="admin-image-url-fallback"
+          />
         </div>
 
         <div className="admin-form-field">
