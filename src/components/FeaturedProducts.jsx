@@ -1,12 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { products as allProducts } from '../data/products';
+import { fetchProducts } from '../data/fetchProducts';
 import './FeaturedProducts.css';
 
-const FEATURED_IDS = ['h9', 'h10', 'h11', 'h12'];
-const products = FEATURED_IDS.map((id) => allProducts.find((p) => p.id === id)).filter(Boolean);
-
 function FeaturedProducts() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((all) => setProducts(all.filter((p) => p.isFeatured).slice(0, 4)))
+      .catch(() => setProducts([]));
+  }, []);
+
+  if (products.length === 0) return null;
+
   return (
     <section className="featured-products section" aria-labelledby="featured-heading">
       <div className="container">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -12,8 +12,8 @@ import RelatedProducts from '../components/RelatedProducts';
 import ProductDetailSkeleton from '../components/ProductDetailSkeleton';
 import ErrorState from '../components/ErrorState';
 import EmptyState from '../components/EmptyState';
-import { fetchProduct } from '../data/fetchProduct';
-import { getRelatedProducts, categories, SHIPPING_INFO, RETURNS_INFO } from '../data/products';
+import { fetchProduct, fetchRelatedProducts } from '../data/fetchProduct';
+import { categories, SHIPPING_INFO, RETURNS_INFO } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import './ProductDetail.css';
@@ -44,6 +44,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [addState, setAddState] = useState('idle');
   const [buyState, setBuyState] = useState('idle');
+  const [related, setRelated] = useState([]);
 
   const load = useCallback(() => {
     setStatus('loading');
@@ -76,7 +77,13 @@ function ProductDetail() {
     window.scrollTo(0, 0);
   }, [load]);
 
-  const related = useMemo(() => (product ? getRelatedProducts(product) : []), [product]);
+  useEffect(() => {
+    if (!product) {
+      setRelated([]);
+      return;
+    }
+    fetchRelatedProducts(product).then(setRelated);
+  }, [product]);
 
   const categoryLabel = product ? categories.find((c) => c.value === product.category)?.label : '';
   const isWishlisted = product ? isInWishlist(product.id) : false;
