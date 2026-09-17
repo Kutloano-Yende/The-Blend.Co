@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { fetchValidProductIds } from '../data/fetchProducts';
 
 const CartContext = createContext(undefined);
 const STORAGE_KEY = 'blend-cart';
@@ -29,6 +30,18 @@ export function CartProvider({ children }) {
       // localStorage unavailable — cart just won't persist across reloads
     }
   }, [items]);
+
+  // If the admin deletes or archives a product after it was added to a
+  // cart, drop it here too — otherwise it sits there until checkout
+  // rejects it. Only prune on a successful fetch; never wipe the cart
+  // because of a network error.
+  useEffect(() => {
+    fetchValidProductIds()
+      .then((validIds) => {
+        setItems((prev) => prev.filter((item) => validIds.has(item.productId)));
+      })
+      .catch(() => {});
+  }, []);
 
   const addItem = ({ id, name, image, price, variants }, quantity = 1) => {
     const key = buildItemKey(id, variants);

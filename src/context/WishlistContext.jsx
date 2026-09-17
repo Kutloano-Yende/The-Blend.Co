@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { fetchValidProductIds } from '../data/fetchProducts';
 
 const WishlistContext = createContext(undefined);
 const STORAGE_KEY = 'blend-wishlist';
@@ -22,6 +23,16 @@ export function WishlistProvider({ children }) {
       // localStorage unavailable — wishlist just won't persist across reloads
     }
   }, [items]);
+
+  // Drop items the admin has since deleted or archived. Only prune on a
+  // successful fetch; never wipe the wishlist because of a network error.
+  useEffect(() => {
+    fetchValidProductIds()
+      .then((validIds) => {
+        setItems((prev) => prev.filter((item) => validIds.has(item.id)));
+      })
+      .catch(() => {});
+  }, []);
 
   const isWishlisted = (id) => items.some((item) => item.id === id);
 

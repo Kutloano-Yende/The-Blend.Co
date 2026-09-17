@@ -35,6 +35,12 @@ export function mapProductRow(row, categoriesMap, primaryImage) {
   };
 }
 
+export async function fetchValidProductIds() {
+  const { data, error } = await supabase.from('products').select('id').eq('is_archived', false);
+  if (error) throw error;
+  return new Set(data.map((p) => p.id));
+}
+
 export async function fetchProducts() {
   const simulateError = new URLSearchParams(window.location.search).has('simulateError');
   if (simulateError) {
