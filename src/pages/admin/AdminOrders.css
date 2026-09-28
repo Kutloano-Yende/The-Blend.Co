@@ -69,11 +69,47 @@
   font-weight: 600;
   color: #333;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .orders-table td {
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  color: #333;
+}
+
+.orders-table th:nth-child(1) {
+  width: 40px;
+}
+
+.orders-table th:nth-child(2) {
+  width: 120px;
+}
+
+.orders-table th:nth-child(3) {
+  width: 200px;
+  min-width: 150px;
+}
+
+.orders-table th:nth-child(4) {
+  width: 80px;
+}
+
+.orders-table th:nth-child(5) {
+  width: 100px;
+}
+
+.orders-table th:nth-child(6) {
+  width: 90px;
+}
+
+.orders-table th:nth-child(7) {
+  width: 100px;
+}
+
+.orders-table th:nth-child(8) {
+  width: 100px;
 }
 
 .orders-table tbody tr:hover {
@@ -101,13 +137,25 @@
 }
 
 .order-id {
-  font-weight: 600;
+  font-weight: 700;
   font-family: 'Courier New', monospace;
-  font-size: 12px;
+  font-size: 13px;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 .customer-name {
   font-weight: 500;
+  color: #333;
+}
+
+.customer-email {
+  font-weight: 500;
+  color: #333 !important;
+  font-size: 14px;
 }
 
 .order-total {
@@ -168,19 +216,21 @@
 }
 
 .order-details {
-  background: #f9f7f4;
+  background: #ffffff;
   padding: 20px;
-  margin-top: 12px;
+  margin: 16px 0;
   border-radius: 4px;
   border-left: 4px solid #8B5A6F;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  grid-column: 1 / -1;
 }
 
 .order-item {
-  background: white;
+  background: #f9f7f4;
   padding: 16px;
   margin-bottom: 12px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0d9d1;
 }
 
 .order-item:last-child {
@@ -191,18 +241,24 @@
   margin: 0 0 12px 0;
   font-size: 16px;
   color: #333;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
 .order-item p {
-  margin: 6px 0;
+  margin: 8px 0;
   font-size: 14px;
-  color: #666;
+  color: #555;
+  line-height: 1.5;
 }
 
 .order-item p strong {
   font-weight: 600;
   color: #333;
+}
+
+.order-item p:first-of-type {
+  margin-top: 0;
 }
 
 @media (max-width: 1023px) {
