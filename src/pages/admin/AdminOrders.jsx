@@ -10,6 +10,7 @@ function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   useEffect(() => {
     loadOrders();
@@ -20,11 +21,17 @@ function AdminOrders() {
       setLoading(true);
       const { data } = await supabase
         .from('orders')
-        .select('*')
+        .select('*, order_items(*)')
         .order('created_at', { ascending: false });
       setOrders(data || []);
     } catch (err) {
       console.error('Error loading orders:', err.message);
+      // Fallback: load orders without items
+      const { data: fallbackData } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+      setOrders(fallbackData || []);
     } finally {
       setLoading(false);
     }
@@ -55,6 +62,10 @@ function AdminOrders() {
     }
   };
 
+  const filteredOrders = filter === 'all'
+    ? orders
+    : orders.filter(o => (o.status || 'pending') === filter);
+
   return (
     <div className="admin-orders">
       <div className="admin-page-header">
@@ -84,15 +95,17 @@ function AdminOrders() {
 
       {loading ? (
         <p>Loading orders...</p>
-      ) : orders.length === 0 ? (
-        <p className="empty-state">No orders yet</p>
+      ) : filteredOrders.length === 0 ? (
+        <p className="empty-state">No orders found</p>
       ) : (
         <div className="orders-table-wrap">
           <table className="orders-table">
             <thead>
               <tr>
+                <th style={{ width: '40px' }}></th>
                 <th>Order ID</th>
-                <th>Customer</th>
+                <th>Customer Email</th>
+                <th>Products</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Date</th>
@@ -100,32 +113,61 @@ function AdminOrders() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="order-id">#{order.id.slice(0, 8)}</td>
-                  <td>{order.customer_email || 'N/A'}</td>
-                  <td className="amount">{formatZAR(order.total_amount || 0)}</td>
-                  <td>
-                    <span className={`status-badge ${getStatusColor(order.status)}`}>
-                      {order.status || 'pending'}
-                    </span>
-                  </td>
-                  <td>{new Date(order.created_at).toLocaleDateString('en-ZA')}</td>
-                  <td>
-                    <select
-                      value={order.status || 'pending'}
-                      onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                      className="status-select"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="completed">Completed</option>
-                      <option value="cancelled">Cancelled</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
+              {filteredOrders.map((order) => {
+                const isExpanded = expandedOrderId === order.id;
+                const items = order.order_items || [];
+
+                return (
+                  <tr key={order.id} className={isExpanded ? 'expanded' : ''}>
+                    <td>
+                      <button
+                        className="expand-btn"
+                        onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
+                      >
+                        {isExpanded ? '▼' : '▶'}
+                      </button>
+                    </td>
+                    <td className="order-id">#{order.id.slice(0, 8)}</td>
+                    <td className="customer-email">{order.customer_email || 'N/A'}</td>
+                    <td className="product-count">{items.length} item{items.length !== 1 ? 's' : ''}</td>
+                    <td className="order-total">{formatZAR(order.total_amount || 0)}</td>
+                    <td>
+                      <span className={`status-badge ${getStatusColor(order.status)}`}>
+                        {order.status || 'pending'}
+                      </span>
+                    </td>
+                    <td className="order-date">
+                      {new Date(order.created_at).toLocaleDateString('en-ZA')}
+                    </td>
+                    <td>
+                      <select
+                        value={order.status || 'pending'}
+                        onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                        className="status-select"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
+
+          {expandedOrderId && (
+            <div className="order-details">
+              {filteredOrders.find(o => o.id === expandedOrderId)?.order_items?.map((item, idx) => (
+                <div key={idx} className="order-item">
+                  <h4>{item.product_name || item.name || 'Unknown Product'}</h4>
+                  <p>Quantity: {item.quantity || 1}</p>
+                  <p>Price: {formatZAR(item.price || 0)}</p>
+                  {item.product_id && <p>Product ID: {item.product_id}</p>}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
