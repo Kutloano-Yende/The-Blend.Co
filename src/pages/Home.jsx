@@ -5,6 +5,7 @@ import FeaturedProducts from '../components/FeaturedProducts';
 import BrandStory from '../components/BrandStory';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 
 function Home() {
   return (
@@ -18,6 +19,7 @@ function Home() {
         <BrandStory />
         <Testimonials />
       </main>
+      <MobileBottomNav />
       <Footer />
     </>
   );

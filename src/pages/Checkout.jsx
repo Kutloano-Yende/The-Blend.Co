@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -137,7 +138,8 @@ function Checkout() {
             </div>
           </section>
         </main>
-        <Footer />
+        <MobileBottomNav />
+      <Footer />
       </>
     );
   }
@@ -267,6 +269,7 @@ function Checkout() {
           </div>
         </section>
       </main>
+      <MobileBottomNav />
       <Footer />
     </>
   );

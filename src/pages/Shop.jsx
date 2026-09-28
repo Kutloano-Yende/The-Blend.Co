@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 import ProductCard from '../components/ProductCard';
 import ProductGridSkeleton from '../components/ProductGridSkeleton';
 import EmptyState from '../components/EmptyState';
@@ -327,6 +328,7 @@ function Shop() {
           </div>
         </div>
       </main>
+      <MobileBottomNav />
       <Footer />
 
       {isFilterDrawerOpen && (

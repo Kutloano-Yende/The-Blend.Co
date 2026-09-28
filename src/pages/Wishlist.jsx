@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 import EmptyState from '../components/EmptyState';
 import { useWishlist } from '../context/WishlistContext';
@@ -61,6 +62,7 @@ function Wishlist() {
           </div>
         </section>
       </main>
+      <MobileBottomNav />
       <Footer />
     </>
   );

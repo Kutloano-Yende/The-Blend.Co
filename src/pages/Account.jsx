@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useAuth } from '../context/AuthContext';
 import './Account.css';
@@ -322,6 +323,7 @@ function Account() {
           </div>
         </section>
       </main>
+      <MobileBottomNav />
       <Footer />
     </>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MobileBottomNav from '../components/MobileBottomNav';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ImageGallery from '../components/ImageGallery';
 import VariantSelector from '../components/VariantSelector';
@@ -333,6 +334,7 @@ function ProductDetail() {
           </>
         )}
       </main>
+      <MobileBottomNav />
       <Footer />
     </>
   );

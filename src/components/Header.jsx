@@ -15,13 +15,15 @@ function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [showAddedToast, setShowAddedToast] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const { items: cartItems, cartCount, cartTotal, lastAddedAt, updateQuantity, removeItem } = useCart();
-  const { isAdmin } = useAuth();
+  const { isAdmin, user, signOut } = useAuth();
   const { wishlistCount } = useWishlist();
   const navigate = useNavigate();
+  const accountMenuRef = useRef(null);
 
   const shopMenuCloseTimeout = useRef(null);
   const openShopMenu = () => {
@@ -33,12 +35,29 @@ function Header() {
   };
   useEffect(() => () => clearTimeout(shopMenuCloseTimeout.current), []);
 
+  // Close account menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target)) {
+        setIsAccountMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const trimmed = searchQuery.trim();
     setIsSearchOpen(false);
     setSearchQuery('');
     navigate(trimmed ? `/shop?search=${encodeURIComponent(trimmed)}` : '/shop');
+  };
+
+  const handleSignOut = () => {
+    signOut();
+    setIsAccountMenuOpen(false);
+    navigate('/account');
   };
 
   const lastAddedRef = useRef(lastAddedAt);
@@ -172,6 +191,48 @@ function Header() {
               <path d="m21 21-4.35-4.35"></path>
             </svg>
           </button>
+
+          {/* Account - Mobile */}
+          <div className="account-menu-wrap mobile-only" ref={accountMenuRef}>
+            <button
+              className="utility-btn account-menu-btn"
+              aria-label="Account menu"
+              onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+              aria-expanded={isAccountMenuOpen}
+              aria-haspopup="true"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </button>
+            {isAccountMenuOpen && (
+              <div className="account-menu-dropdown" role="menu">
+                {user ? (
+                  <>
+                    <div className="account-menu-user">
+                      <p className="account-menu-email">{user.email}</p>
+                    </div>
+                    <Link to="/account" className="account-menu-item" role="menuitem" onClick={() => setIsAccountMenuOpen(false)}>
+                      My Account
+                    </Link>
+                    <button type="button" className="account-menu-item" role="menuitem" onClick={handleSignOut}>
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/account" className="account-menu-item" role="menuitem" onClick={() => setIsAccountMenuOpen(false)}>
+                      Sign In
+                    </Link>
+                    <Link to="/account" className="account-menu-item" role="menuitem" onClick={() => setIsAccountMenuOpen(false)}>
+                      Create Account
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Cart */}
           <div className="cart-btn-wrap">
