@@ -355,6 +355,7 @@ function Header() {
           <div className="mobile-menu-section">
             <h3 className="mobile-menu-heading">Account</h3>
             <ul className="mobile-menu-list">
+              {isAdmin && <li><Link to="/admin/products" onClick={() => setIsMenuOpen(false)}>Admin Panel</Link></li>}
               <li><Link to="/account" onClick={() => setIsMenuOpen(false)}>Sign In</Link></li>
               <li><Link to="/account" onClick={() => setIsMenuOpen(false)}>Create Account</Link></li>
             </ul>
