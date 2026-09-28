@@ -22,6 +22,10 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
 import AdminComingSoon from './pages/admin/AdminComingSoon';
 import AdminTerms from './pages/admin/AdminTerms';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminCategories from './pages/admin/AdminCategories';
 
 function App() {
   return (
@@ -55,14 +59,14 @@ function App() {
                 }
               >
                 <Route index element={<Navigate to="/admin/products" replace />} />
-                <Route path="dashboard" element={<AdminComingSoon title="Dashboard" />} />
+                <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="products/new" element={<AdminProductForm />} />
                 <Route path="products/:id" element={<AdminProductForm />} />
                 <Route path="terms" element={<AdminTerms />} />
-                <Route path="categories" element={<AdminComingSoon title="Categories" />} />
-                <Route path="orders" element={<AdminComingSoon title="Orders" />} />
-                <Route path="customers" element={<AdminComingSoon title="Customers" />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="customers" element={<AdminCustomers />} />
                 <Route path="inventory" element={<AdminComingSoon title="Inventory" />} />
                 <Route path="promotions" element={<AdminComingSoon title="Promotions" />} />
               </Route>

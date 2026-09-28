@@ -1,0 +1,60 @@
+.admin-coming-soon {
+  padding: 48px 24px;
+}
+
+.coming-soon-card {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.coming-soon-card h1 {
+  font-size: 32px;
+  margin: 0 0 16px 0;
+  color: #333;
+}
+
+.coming-soon-card > p:nth-of-type(1) {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 32px 0;
+}
+
+.feature-list {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.feature-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  padding: 12px 0;
+  color: #666;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.feature-list li:last-child {
+  border-bottom: none;
+}
+
+.feature-list li::before {
+  content: "✓ ";
+  color: #8B5A6F;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.coming-soon-message {
+  font-size: 18px;
+  color: #8B5A6F;
+  font-weight: 600;
+  margin: 24px 0 0 0;
+}
