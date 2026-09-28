@@ -20,12 +20,13 @@ import { SHIPPING_INFO, RETURNS_INFO } from './data/products';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
-import AdminComingSoon from './pages/admin/AdminComingSoon';
 import AdminTerms from './pages/admin/AdminTerms';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminCategories from './pages/admin/AdminCategories';
+import AdminInventory from './pages/admin/AdminInventory';
+import AdminPromotions from './pages/admin/AdminPromotions';
 
 function App() {
   return (
@@ -67,8 +68,8 @@ function App() {
                 <Route path="categories" element={<AdminCategories />} />
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="customers" element={<AdminCustomers />} />
-                <Route path="inventory" element={<AdminComingSoon title="Inventory" />} />
-                <Route path="promotions" element={<AdminComingSoon title="Promotions" />} />
+                <Route path="inventory" element={<AdminInventory />} />
+                <Route path="promotions" element={<AdminPromotions />} />
               </Route>
             </Routes>
           </div>
