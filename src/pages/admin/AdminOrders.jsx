@@ -49,6 +49,25 @@ function AdminOrders() {
     }
   };
 
+  const getCustomerInfo = (order) => {
+    // Try multiple possible field names for customer email
+    return order.customer_email ||
+           order.user_email ||
+           order.email ||
+           order.customer?.email ||
+           order.user?.email ||
+           'Unknown Customer';
+  };
+
+  const getOrderTotal = (order) => {
+    // Try multiple possible field names for total
+    return order.total_amount ||
+           order.total ||
+           order.amount ||
+           order.price ||
+           0;
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'completed':
@@ -113,9 +132,12 @@ function AdminOrders() {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order) => {
+              {filteredOrders.map((order, idx) => {
                 const isExpanded = expandedOrderId === order.id;
                 const items = order.order_items || [];
+                const customerInfo = getCustomerInfo(order);
+                const orderTotal = getOrderTotal(order);
+                const orderNumber = String(idx + 1).padStart(5, '0');
 
                 return (
                   <tr key={order.id} className={isExpanded ? 'expanded' : ''}>
@@ -127,17 +149,17 @@ function AdminOrders() {
                         {isExpanded ? '▼' : '▶'}
                       </button>
                     </td>
-                    <td className="order-id">#{order.id.slice(0, 8)}</td>
-                    <td className="customer-email">{order.customer_email || 'N/A'}</td>
+                    <td className="order-id">#ORD-{orderNumber}</td>
+                    <td className="customer-email">{customerInfo}</td>
                     <td className="product-count">{items.length} item{items.length !== 1 ? 's' : ''}</td>
-                    <td className="order-total">{formatZAR(order.total_amount || 0)}</td>
+                    <td className="order-total">{formatZAR(orderTotal)}</td>
                     <td>
                       <span className={`status-badge ${getStatusColor(order.status)}`}>
                         {order.status || 'pending'}
                       </span>
                     </td>
                     <td className="order-date">
-                      {new Date(order.created_at).toLocaleDateString('en-ZA')}
+                      {order.created_at ? new Date(order.created_at).toLocaleDateString('en-ZA') : 'N/A'}
                     </td>
                     <td>
                       <select
