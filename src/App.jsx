@@ -21,6 +21,7 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
 import AdminComingSoon from './pages/admin/AdminComingSoon';
+import AdminTerms from './pages/admin/AdminTerms';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
                 <Route path="products" element={<AdminProducts />} />
                 <Route path="products/new" element={<AdminProductForm />} />
                 <Route path="products/:id" element={<AdminProductForm />} />
+                <Route path="terms" element={<AdminTerms />} />
                 <Route path="categories" element={<AdminComingSoon title="Categories" />} />
                 <Route path="orders" element={<AdminComingSoon title="Orders" />} />
                 <Route path="customers" element={<AdminComingSoon title="Customers" />} />
