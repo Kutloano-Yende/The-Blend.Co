@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/admin/customers', label: 'Customers' },
   { to: '/admin/inventory', label: 'Inventory' },
   { to: '/admin/promotions', label: 'Promotions' },
+  { to: '/admin/emails', label: 'Emails' },
 ];
 
 function AdminLayout() {

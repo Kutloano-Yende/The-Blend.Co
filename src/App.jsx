@@ -27,6 +27,7 @@ import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminInventory from './pages/admin/AdminInventory';
 import AdminPromotions from './pages/admin/AdminPromotions';
+import AdminEmails from './pages/admin/AdminEmails';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
                 <Route path="customers" element={<AdminCustomers />} />
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="promotions" element={<AdminPromotions />} />
+                <Route path="emails" element={<AdminEmails />} />
               </Route>
             </Routes>
           </div>
