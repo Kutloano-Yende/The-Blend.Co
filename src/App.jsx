@@ -28,6 +28,7 @@ import AdminCategories from './pages/admin/AdminCategories';
 import AdminInventory from './pages/admin/AdminInventory';
 import AdminPromotions from './pages/admin/AdminPromotions';
 import AdminEmails from './pages/admin/AdminEmails';
+import AdminShipments from './pages/admin/AdminShipments';
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
                 <Route path="inventory" element={<AdminInventory />} />
                 <Route path="promotions" element={<AdminPromotions />} />
                 <Route path="emails" element={<AdminEmails />} />
+                <Route path="shipments" element={<AdminShipments />} />
               </Route>
             </Routes>
           </div>

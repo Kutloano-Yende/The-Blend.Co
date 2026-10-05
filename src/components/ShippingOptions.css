@@ -1,0 +1,151 @@
+.shipping-options {
+  margin: 24px 0;
+  padding: 20px;
+  background: #f9f7f4;
+  border-radius: 4px;
+  border: 1px solid #e0d9d1;
+}
+
+.shipping-options h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.shipping-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shipping-option {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shipping-option:hover {
+  border-color: #8B5A6F;
+  box-shadow: 0 2px 8px rgba(139, 90, 111, 0.1);
+}
+
+.shipping-option.selected {
+  border-color: #8B5A6F;
+  background: #f9f7f4;
+  box-shadow: 0 2px 8px rgba(139, 90, 111, 0.15);
+}
+
+.shipping-option input[type="radio"] {
+  margin-top: 2px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.shipping-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shipping-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.shipping-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+.shipping-price {
+  font-weight: 700;
+  color: #8B5A6F;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.shipping-description {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.shipping-estimate {
+  margin: 0;
+  font-size: 13px;
+  color: #999;
+}
+
+.shipping-features {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.shipping-features li {
+  font-size: 12px;
+  color: #666;
+  margin: 4px 0;
+}
+
+.shipping-features li::before {
+  content: '✓ ';
+  color: #4caf50;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.shipping-loading,
+.shipping-error,
+.shipping-empty {
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.shipping-error {
+  color: #f44336;
+  background: #ffebee;
+  border-radius: 4px;
+}
+
+.shipping-loading {
+  color: #ff9800;
+  font-style: italic;
+}
+
+@media (max-width: 1023px) {
+  .shipping-options {
+    padding: 16px;
+  }
+
+  .shipping-option {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shipping-header {
+    flex-direction: row;
+  }
+
+  .shipping-name {
+    font-size: 14px;
+  }
+
+  .shipping-price {
+    font-size: 15px;
+  }
+}
