@@ -20,6 +20,10 @@ export const sendOrderEmail = async (emailType, orderData, customerEmail) => {
       subject: 'Your Order Has Been Delivered - The Blend.Co',
       html: getOrderDeliveredTemplate(orderData),
     },
+    deliveryForm: {
+      subject: 'Confirm Your Delivery Address - The Blend.Co',
+      html: getDeliveryFormTemplate(orderData),
+    },
   };
 
   const template = templates[emailType];
@@ -520,6 +524,131 @@ const getOrderDeliveredTemplate = (order) => `
       <p style="margin: 5px 0;"><strong>The Blend.Co</strong></p>
       <p style="margin: 5px 0;">Premium Hair & Beauty, Crafted with Intention</p>
       <p style="margin: 5px 0;">Email: support@thebland-co.com</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+const getDeliveryFormTemplate = (delivery) => `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f7f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      border-bottom: 3px solid #8B5A6F;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #8B5A6F;
+      margin: 0;
+    }
+    .status-badge {
+      display: inline-block;
+      background-color: #8B5A6F;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 15px 0 0 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #8B5A6F;
+      color: white;
+      padding: 14px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      margin: 25px 0;
+      text-align: center;
+      font-size: 16px;
+    }
+    .info-box {
+      background-color: #f9f7f4;
+      padding: 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+      border-left: 4px solid #8B5A6F;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <p class="logo">The Blend.Co</p>
+      <span class="status-badge">📍 Delivery Address Needed</span>
+    </div>
+
+    <h2 style="color: #333; margin: 0 0 10px 0;">Complete Your Order</h2>
+    <p style="color: #666; margin: 0 0 20px 0;">We've received your order! Please provide your delivery address so we can send it to you right away.</p>
+
+    <div class="info-box">
+      <p style="font-size: 14px; color: #333; margin: 0 0 8px 0;"><strong>Order #${delivery.order_id}</strong></p>
+      <p style="font-size: 13px; color: #666; margin: 0;">Customer: ${delivery.customer_name}</p>
+    </div>
+
+    <h3 style="color: #333; margin: 20px 0 10px 0;">What We Need From You</h3>
+    <p style="color: #666; margin: 0 0 15px 0;">
+      To ensure your order arrives safely, please click the button below and fill in your delivery address, including your street address, city, postal code, and phone number.
+    </p>
+
+    <a href="${delivery.deliveryLink || 'https://the-blend-co.vercel.app/delivery/' + delivery.delivery_link_token}" class="cta-button">
+      ➜ Provide Delivery Address
+    </a>
+
+    <h3 style="color: #333; margin: 20px 0 10px 0;">Why We Need This</h3>
+    <ul style="color: #666; padding-left: 20px;">
+      <li>Ensures accurate and timely delivery of your order</li>
+      <li>Helps us contact you if there are any delivery questions</li>
+      <li>Enables real-time tracking of your shipment</li>
+    </ul>
+
+    <div class="info-box">
+      <p style="font-size: 13px; color: #666; margin: 0;">
+        <strong>⏰ Note:</strong> This link expires in 7 days. Please complete your delivery details as soon as possible to avoid any delays.
+      </p>
+    </div>
+
+    <p style="color: #666; margin: 20px 0;">
+      If you have any questions or need assistance, please don't hesitate to contact our support team at support@thebland-co.com.
+    </p>
+
+    <div class="footer">
+      <p style="margin: 5px 0;"><strong>The Blend.Co</strong></p>
+      <p style="margin: 5px 0;">Premium Hair & Beauty, Crafted with Intention</p>
+      <p style="margin: 5px 0;">Email: support@thebland-co.com</p>
+      <p style="margin: 15px 0 0 0; color: #ccc;">© 2026 The Blend.Co. All rights reserved.</p>
     </div>
   </div>
 </body>

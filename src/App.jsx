@@ -29,6 +29,8 @@ import AdminInventory from './pages/admin/AdminInventory';
 import AdminPromotions from './pages/admin/AdminPromotions';
 import AdminEmails from './pages/admin/AdminEmails';
 import AdminShipments from './pages/admin/AdminShipments';
+import AdminDeliveries from './pages/admin/AdminDeliveries';
+import DeliveryFormPage from './pages/DeliveryFormPage';
 
 function App() {
   return (
@@ -52,6 +54,7 @@ function App() {
               <Route path="/checkout/cancel" element={<CheckoutCancel />} />
               <Route path="/shipping" element={<InfoPage title="Shipping" content={SHIPPING_INFO} />} />
               <Route path="/returns" element={<InfoPage title="Returns" content={RETURNS_INFO} />} />
+              <Route path="/delivery/:token" element={<DeliveryFormPage />} />
 
               <Route
                 path="/admin"
@@ -74,6 +77,7 @@ function App() {
                 <Route path="promotions" element={<AdminPromotions />} />
                 <Route path="emails" element={<AdminEmails />} />
                 <Route path="shipments" element={<AdminShipments />} />
+                <Route path="deliveries" element={<AdminDeliveries />} />
               </Route>
             </Routes>
           </div>

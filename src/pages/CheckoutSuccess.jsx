@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
 import { supabase } from '../lib/supabaseClient';
 import { downloadInvoicePdf } from '../lib/invoice';
+import { deliveryService } from '../lib/deliveryService';
+import { sendOrderEmail } from '../lib/emailService';
 import './Checkout.css';
 
 function formatZAR(amount) {
@@ -31,14 +33,40 @@ function CheckoutSuccess() {
     Promise.all([
       supabase.rpc('track_order_by_token', { _token: token }),
       supabase.rpc('get_order_items_by_token', { _token: token }),
-    ]).then(([orderRes, itemsRes]) => {
+    ]).then(async ([orderRes, itemsRes]) => {
       if (orderRes.error || !orderRes.data || orderRes.data.length === 0) {
         setStatus('error');
         return;
       }
-      setOrder(orderRes.data[0]);
+      const orderData = orderRes.data[0];
+      setOrder(orderData);
       setItems(itemsRes.data || []);
       setStatus('success');
+
+      // Create delivery address record and send delivery email
+      try {
+        const deliveryResult = await deliveryService.createDeliveryRecord(
+          orderData.id,
+          `${orderData.customer_first_name || ''} ${orderData.customer_last_name || ''}`.trim(),
+          orderData.customer_email
+        );
+
+        if (deliveryResult.success) {
+          // Send delivery form email with branded template
+          await sendOrderEmail('deliveryForm', {
+            order_id: orderData.id,
+            customer_name: `${orderData.customer_first_name || ''} ${orderData.customer_last_name || ''}`.trim(),
+            customer_email: orderData.customer_email,
+            deliveryLink: deliveryResult.fullLink,
+            delivery_link_token: deliveryResult.data.delivery_link_token,
+          }, orderData.customer_email);
+
+          console.log('✅ Delivery form email sent:', orderData.customer_email);
+        }
+      } catch (deliveryError) {
+        console.error('⚠️ Error with delivery setup:', deliveryError);
+        // Don't fail the order - delivery can be handled separately
+      }
     });
   }, [token]);
 
