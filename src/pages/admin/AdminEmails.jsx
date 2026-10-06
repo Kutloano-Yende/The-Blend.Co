@@ -3,15 +3,39 @@ import { supabase } from '../../lib/supabaseClient';
 import './AdminEmails.css';
 
 function AdminEmails() {
-  const [emailType, setEmailType] = useState('received');
+  const [customerEmails, setCustomerEmails] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState('');
   const [emailLog, setEmailLog] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [emailsLoading, setEmailsLoading] = useState(true);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
+    loadCustomerEmails();
     loadEmailLog();
   }, []);
+
+  const loadCustomerEmails = async () => {
+    try {
+      setEmailsLoading(true);
+      // Get unique customer emails from paid orders
+      const { data, error } = await supabase
+        .from('orders')
+        .select('customer_email')
+        .eq('payment_status', 'paid')
+        .order('customer_email', { ascending: true });
+
+      if (error) throw error;
+
+      // Get unique emails
+      const uniqueEmails = [...new Set(data.map(o => o.customer_email))].filter(Boolean);
+      setCustomerEmails(uniqueEmails);
+    } catch (err) {
+      console.error('Error loading customer emails:', err.message);
+    } finally {
+      setEmailsLoading(false);
+    }
+  };
 
   const loadEmailLog = async () => {
     try {
@@ -33,12 +57,13 @@ function AdminEmails() {
     { key: 'processing', label: 'Order Processing', color: '#ff9800' },
     { key: 'shipped', label: 'Order Shipped', color: '#4caf50' },
     { key: 'delivered', label: 'Order Delivered', color: '#2e7d32' },
+    { key: 'deliveryForm', label: 'Delivery Form', color: '#2196F3' },
   ];
 
   const filteredLogs = emailLog.filter(log => {
-    const matchesSearch = log.recipient?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesEmail = !selectedEmail || log.recipient === selectedEmail;
     const matchesType = filter === 'all' || log.email_type === filter;
-    return matchesSearch && matchesType;
+    return matchesEmail && matchesType;
   });
 
   const getStatusColor = (status) => {
@@ -57,8 +82,6 @@ function AdminEmails() {
   const resendEmail = async (logId) => {
     if (!window.confirm('Resend this email?')) return;
     try {
-      const log = emailLog.find(l => l.id === logId);
-      // Call Resend API to resend the email
       alert('Email resent successfully!');
       loadEmailLog();
     } catch (err) {
@@ -94,6 +117,7 @@ function AdminEmails() {
                   {type.key === 'processing' && 'Sent when order begins processing'}
                   {type.key === 'shipped' && 'Sent when order ships out'}
                   {type.key === 'delivered' && 'Sent when order is delivered'}
+                  {type.key === 'deliveryForm' && 'Sent with delivery form link to collect address'}
                 </p>
                 <div style={{ marginTop: '10px', fontSize: '12px', color: '#999' }}>
                   Includes: Order details, customer name, items, total, and branded footer
@@ -121,13 +145,24 @@ function AdminEmails() {
           </p>
 
           <div className="email-controls">
-            <input
-              type="text"
-              placeholder="Search by email address..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
+            <select
+              value={selectedEmail}
+              onChange={(e) => setSelectedEmail(e.target.value)}
+              className="filter-select"
+              style={{ flex: 1, marginRight: '10px' }}
+            >
+              <option value="">All Customers ({customerEmails.length})</option>
+              {emailsLoading ? (
+                <option disabled>Loading customer emails...</option>
+              ) : (
+                customerEmails.map(email => (
+                  <option key={email} value={email}>
+                    {email}
+                  </option>
+                ))
+              )}
+            </select>
+
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
@@ -138,13 +173,18 @@ function AdminEmails() {
               <option value="processing">Order Processing</option>
               <option value="shipped">Order Shipped</option>
               <option value="delivered">Order Delivered</option>
+              <option value="deliveryForm">Delivery Form</option>
             </select>
           </div>
 
           {loading ? (
             <p>Loading email history...</p>
           ) : filteredLogs.length === 0 ? (
-            <p className="empty-state">No emails sent yet</p>
+            <p className="empty-state">
+              {selectedEmail 
+                ? `No emails found for ${selectedEmail}` 
+                : 'No emails sent yet'}
+            </p>
           ) : (
             <div className="email-logs-table">
               <table>
