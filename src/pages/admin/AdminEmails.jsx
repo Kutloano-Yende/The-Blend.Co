@@ -21,14 +21,14 @@ function AdminEmails() {
       // Get unique customer emails from paid orders
       const { data, error } = await supabase
         .from('orders')
-        .select('customer_email')
+        .select('email')
         .eq('payment_status', 'paid')
-        .order('customer_email', { ascending: true });
+        .order('email', { ascending: true });
 
       if (error) throw error;
 
       // Get unique emails
-      const uniqueEmails = [...new Set(data.map(o => o.customer_email))].filter(Boolean);
+      const uniqueEmails = [...new Set(data.map(o => o.email))].filter(Boolean);
       setCustomerEmails(uniqueEmails);
     } catch (err) {
       console.error('Error loading customer emails:', err.message);
