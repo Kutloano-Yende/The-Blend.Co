@@ -1,15 +1,16 @@
 .account-section {
   padding: var(--spacing-xl) 0 var(--spacing-4xl);
-  background-color: #f9f7f4;
+  background-color: #f9f7f4 !important;
   min-height: 100vh;
 }
 
 .account-inner {
   max-width: 440px;
-  background-color: white;
-  padding: 40px;
+  background-color: white !important;
+  padding: 40px !important;
   border-radius: 8px;
   margin: 40px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .auth-tabs {
@@ -38,6 +39,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
+  background-color: white !important;
+  padding: 20px !important;
+  border-radius: 6px;
 }
 
 .auth-form-row {
@@ -64,11 +68,11 @@
 .form-field input {
   font-family: var(--font-body);
   font-size: var(--text-body-md);
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 12px !important;
+  border: 2px solid #ccc !important;
   border-radius: var(--radius-md);
-  background-color: #fff;
-  color: #333;
+  background-color: #fff !important;
+  color: #333 !important;
 }
 
 .form-field input:focus {
