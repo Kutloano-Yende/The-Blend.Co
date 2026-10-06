@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { deliveryService } from '../../lib/deliveryService';
+import { sendOrderEmail } from '../../lib/emailService';
 import './AdminDeliveries.css';
 
 function AdminDeliveries() {
@@ -9,6 +10,8 @@ function AdminDeliveries() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
+  const [resendingId, setResendingId] = useState(null);
+  const [resendMessage, setResendMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
     loadDeliveries();
@@ -68,6 +71,40 @@ function AdminDeliveries() {
     return isCompleted ? '✓ Completed' : '⏳ Pending';
   };
 
+  const resendDeliveryEmail = async (delivery) => {
+    if (!window.confirm(`Resend delivery form link to ${delivery.customer_email}?`)) {
+      return;
+    }
+
+    setResendingId(delivery.id);
+    setResendMessage({ type: '', text: '' });
+
+    try {
+      const deliveryLink = `${window.location.origin}/delivery/${delivery.delivery_link_token}`;
+
+      await sendOrderEmail('deliveryForm', {
+        order_id: delivery.order_id,
+        customer_name: delivery.customer_name,
+        customer_email: delivery.customer_email,
+        deliveryLink: deliveryLink,
+        delivery_link_token: delivery.delivery_link_token,
+      }, delivery.customer_email);
+
+      setResendMessage({
+        type: 'success',
+        text: `✓ Delivery form link sent to ${delivery.customer_email}`
+      });
+      setTimeout(() => setResendMessage({ type: '', text: '' }), 5000);
+    } catch (error) {
+      setResendMessage({
+        type: 'error',
+        text: `Error sending email: ${error.message}`
+      });
+    } finally {
+      setResendingId(null);
+    }
+  };
+
   const stats = {
     total: deliveries.length,
     completed: deliveries.filter(d => d.is_completed).length,
@@ -88,6 +125,23 @@ function AdminDeliveries() {
         <h1>Customer Deliveries</h1>
         <p>Manage and track customer delivery addresses</p>
       </div>
+
+      {/* Status Messages */}
+      {resendMessage.text && (
+        <div
+          style={{
+            padding: '12px 16px',
+            marginBottom: '20px',
+            borderRadius: '4px',
+            fontSize: '14px',
+            backgroundColor: resendMessage.type === 'success' ? '#d4edda' : '#f8d7da',
+            color: resendMessage.type === 'success' ? '#155724' : '#721c24',
+            border: `1px solid ${resendMessage.type === 'success' ? '#c3e6cb' : '#f5c6cb'}`,
+          }}
+        >
+          {resendMessage.text}
+        </div>
+      )}
 
       {/* Statistics */}
       <div className="deliveries-stats">
@@ -209,6 +263,26 @@ function AdminDeliveries() {
                       <p style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>
                         Link expires: {new Date(delivery.expires_at).toLocaleDateString('en-ZA')}
                       </p>
+                      <button
+                        type="button"
+                        className="resend-email-btn"
+                        onClick={() => resendDeliveryEmail(delivery)}
+                        disabled={resendingId === delivery.id}
+                        style={{
+                          marginTop: '12px',
+                          padding: '8px 16px',
+                          backgroundColor: '#8B5A6F',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '13px',
+                          fontWeight: '600',
+                          opacity: resendingId === delivery.id ? 0.6 : 1,
+                        }}
+                      >
+                        {resendingId === delivery.id ? 'Sending...' : 'Resend Email'}
+                      </button>
                     </div>
                   )}
 
