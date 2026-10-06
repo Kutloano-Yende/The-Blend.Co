@@ -113,27 +113,21 @@ export const deliveryService = {
     try {
       const offset = (page - 1) * limit;
 
-      // Join with orders table to only get deliveries from paid orders
+      // Get all deliveries - payment filtering happens via RLS policies
       const { data, error, count } = await supabase
         .from('delivery_addresses')
-        .select(`
-          *,
-          orders(payment_status)
-        `, { count: 'exact' })
+        .select('*', { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
 
       if (error) throw error;
 
-      // Filter to only include paid orders
-      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
-
       return {
         success: true,
-        data: paidDeliveries,
-        total: paidDeliveries.length,
+        data: data || [],
+        total: count || 0,
         page,
-        totalPages: Math.ceil(paidDeliveries.length / limit),
+        totalPages: Math.ceil((count || 0) / limit),
       };
     } catch (error) {
       return { success: false, error: error.message };
@@ -145,19 +139,13 @@ export const deliveryService = {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select(`
-          *,
-          orders(payment_status)
-        `)
+        .select('*')
         .or(`order_id.ilike.%${query}%,customer_email.ilike.%${query}%,customer_name.ilike.%${query}%`)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Filter to only include paid orders
-      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
-
-      return { success: true, data: paidDeliveries };
+      return { success: true, data: data || [] };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -194,19 +182,13 @@ export const deliveryService = {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select(`
-          *,
-          orders(payment_status)
-        `)
+        .select('*')
         .eq('is_completed', false)
         .lt('expires_at', new Date().toISOString());
 
       if (error) throw error;
 
-      // Filter to only include paid orders
-      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
-
-      return { success: true, data: paidDeliveries };
+      return { success: true, data: data || [] };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -217,20 +199,14 @@ export const deliveryService = {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select(`
-          *,
-          orders(payment_status)
-        `)
+        .select('*')
         .eq('is_completed', false)
         .gt('expires_at', new Date().toISOString())
         .order('created_at', { ascending: true });
 
       if (error) throw error;
 
-      // Filter to only include paid orders
-      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
-
-      return { success: true, data: paidDeliveries };
+      return { success: true, data: data || [] };
     } catch (error) {
       return { success: false, error: error.message };
     }
