@@ -78,7 +78,7 @@ function CheckoutSuccess() {
       <main id="main-content">
         <section className="checkout-section">
           <div className="container checkout-empty">
-            {status === 'loading' && <p>Loading your order…</p>}
+            {status === 'loading' && <p>Loading your order...</p>}
 
             {status === 'error' && (
               <>
@@ -93,13 +93,13 @@ function CheckoutSuccess() {
                 <h1>Thank you for your order</h1>
                 <p>
                   Payment status: <strong>{order.payment_status}</strong>
-                  {order.payment_status !== 'paid' && ' — we'll update this once PayFast confirms your payment.'}
+                  {order.payment_status !== 'paid' && ' - we will update this once PayFast confirms your payment.'}
                 </p>
                 <p>Order total: <strong>{formatZAR(order.total)}</strong></p>
                 <p>A confirmation will be sent to your email once payment is confirmed.</p>
                 {order.payment_status === 'paid' && (
                   <p style={{ color: '#4caf50', marginTop: '16px', fontWeight: '600' }}>
-                    ✓ Delivery form link sent! Check your email to provide your delivery address.
+                    Check your email for delivery address form to complete your order setup.
                   </p>
                 )}
                 <button
