@@ -7,9 +7,26 @@ export const deliveryService = {
     return crypto.randomBytes(32).toString('hex');
   },
 
-  // Create delivery address record for order
+  // Create delivery address record for order (ONLY if order is paid)
   createDeliveryRecord: async (orderId, customerName, customerEmail) => {
     try {
+      // Check if order exists and is paid
+      const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .select('payment_status')
+        .eq('id', orderId)
+        .single();
+
+      if (orderError || !orderData) {
+        console.error('Order not found:', orderId);
+        return { success: false, error: 'Order not found' };
+      }
+
+      if (orderData.payment_status !== 'paid') {
+        console.log('⚠️ Delivery record not created - order not paid yet:', orderId, orderData.payment_status);
+        return { success: false, error: 'Order payment not confirmed yet' };
+      }
+
       const token = Math.random().toString(36).substring(2, 15) +
                    Math.random().toString(36).substring(2, 15);
 
@@ -91,42 +108,56 @@ export const deliveryService = {
     }
   },
 
-  // Get all deliveries for admin
+  // Get all deliveries for admin (ONLY paid orders)
   getAllDeliveries: async (page = 1, limit = 20) => {
     try {
       const offset = (page - 1) * limit;
 
+      // Join with orders table to only get deliveries from paid orders
       const { data, error, count } = await supabase
         .from('delivery_addresses')
-        .select('*', { count: 'exact' })
+        .select(`
+          *,
+          orders(payment_status)
+        `, { count: 'exact' })
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
 
       if (error) throw error;
 
+      // Filter to only include paid orders
+      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
+
       return {
         success: true,
-        data,
-        total: count,
+        data: paidDeliveries,
+        total: paidDeliveries.length,
         page,
-        totalPages: Math.ceil(count / limit),
+        totalPages: Math.ceil(paidDeliveries.length / limit),
       };
     } catch (error) {
       return { success: false, error: error.message };
     }
   },
 
-  // Search deliveries by order ID or email
+  // Search deliveries by order ID or email (ONLY paid orders)
   searchDeliveries: async (query) => {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select('*')
+        .select(`
+          *,
+          orders(payment_status)
+        `)
         .or(`order_id.ilike.%${query}%,customer_email.ilike.%${query}%,customer_name.ilike.%${query}%`)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return { success: true, data };
+
+      // Filter to only include paid orders
+      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
+
+      return { success: true, data: paidDeliveries };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -158,34 +189,48 @@ export const deliveryService = {
     }
   },
 
-  // Get incomplete deliveries (for reminder emails)
+  // Get incomplete deliveries (for reminder emails) - ONLY paid orders
   getIncompleteDeliveries: async () => {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select('*')
+        .select(`
+          *,
+          orders(payment_status)
+        `)
         .eq('is_completed', false)
         .lt('expires_at', new Date().toISOString());
 
       if (error) throw error;
-      return { success: true, data };
+
+      // Filter to only include paid orders
+      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
+
+      return { success: true, data: paidDeliveries };
     } catch (error) {
       return { success: false, error: error.message };
     }
   },
 
-  // Get pending deliveries (not yet completed but not expired)
+  // Get pending deliveries (not yet completed but not expired) - ONLY paid orders
   getPendingDeliveries: async () => {
     try {
       const { data, error } = await supabase
         .from('delivery_addresses')
-        .select('*')
+        .select(`
+          *,
+          orders(payment_status)
+        `)
         .eq('is_completed', false)
         .gt('expires_at', new Date().toISOString())
         .order('created_at', { ascending: true });
 
       if (error) throw error;
-      return { success: true, data };
+
+      // Filter to only include paid orders
+      const paidDeliveries = data.filter(d => d.orders?.payment_status === 'paid');
+
+      return { success: true, data: paidDeliveries };
     } catch (error) {
       return { success: false, error: error.message };
     }

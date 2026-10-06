@@ -43,7 +43,7 @@ function CheckoutSuccess() {
       setItems(itemsRes.data || []);
       setStatus('success');
 
-      // Create delivery address record and send delivery email (ONLY for PAID orders)
+      // Create delivery address record and send delivery email (ONLY if payment_status === 'paid')
       try {
         const deliveryResult = await deliveryService.createDeliveryRecord(
           orderData.id,
@@ -62,11 +62,14 @@ function CheckoutSuccess() {
           }, orderData.customer_email);
 
           console.log('✅ Delivery form email sent to:', orderData.customer_email);
+        } else if (deliveryResult.error === 'Order payment not confirmed yet') {
+          console.log('⏳ Delivery email will be sent once payment is confirmed:', orderData.customer_email);
         } else {
-          console.log('⏳ Delivery email pending - order not yet marked as paid. Status:', orderData.payment_status);
+          console.warn('⚠️ Delivery record not created:', deliveryResult.error);
         }
       } catch (deliveryError) {
         console.error('⚠️ Error with delivery setup:', deliveryError);
+        // Don't fail the order - delivery can be handled separately
       }
     });
   }, [token]);
@@ -98,26 +101,9 @@ function CheckoutSuccess() {
                 <p>Order total: <strong>{formatZAR(order.total)}</strong></p>
                 <p>A confirmation will be sent to your email once payment is confirmed.</p>
                 {order.payment_status === 'paid' && (
-                  <p style={{ color: '#4caf50', marginTop: '16px', fontWeight: '600' }}>
-                    ✓ Delivery form link sent! Check your email to provide your delivery address.
+                  <p style={{ color: '#4caf50', marginTop: '16px' }}>
+                    ✓ Your delivery address form has been sent to your email. Please fill it out to complete your order setup.
                   </p>
                 )}
                 <button
                   type="button"
-                  className="btn btn-primary"
-                  onClick={() => downloadInvoicePdf(order, items)}
-                >
-                  Download Invoice
-                </button>
-                <Link to="/shop" className="checkout-back-link">Continue Shopping</Link>
-              </>
-            )}
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-export default CheckoutSuccess;
