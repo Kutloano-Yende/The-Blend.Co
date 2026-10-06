@@ -11,6 +11,7 @@ function AdminDeliveries() {
   const [filterStatus, setFilterStatus] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
   const [resendingId, setResendingId] = useState(null);
+  const [bulkSending, setBulkSending] = useState(false);
   const [resendMessage, setResendMessage] = useState({ type: '', text: '' });
   const [customerEmails, setCustomerEmails] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -89,6 +90,47 @@ function AdminDeliveries() {
 
   const getStatusText = (isCompleted) => {
     return isCompleted ? '✓ Completed' : '⏳ Pending';
+  };
+
+
+  const sendToAllPending = async () => {
+    const pendingDeliveries = filteredDeliveries.filter(d => !d.is_completed);
+    if (pendingDeliveries.length === 0) {
+      alert('No pending deliveries to send emails to');
+      return;
+    }
+
+    if (!window.confirm(`Send delivery form request to ${pendingDeliveries.length} customers?`)) {
+      return;
+    }
+
+    setBulkSending(true);
+    let successCount = 0;
+    let failedCount = 0;
+
+    for (const delivery of pendingDeliveries) {
+      try {
+        const deliveryLink = `${window.location.origin}/delivery/${delivery.delivery_link_token}`;
+        await sendOrderEmail('deliveryForm', {
+          order_id: delivery.order_id,
+          customer_name: delivery.customer_name,
+          customer_email: delivery.customer_email,
+          deliveryLink: deliveryLink,
+          delivery_link_token: delivery.delivery_link_token,
+        }, delivery.customer_email);
+        successCount++;
+      } catch (error) {
+        failedCount++;
+        console.error(`Failed to send to ${delivery.customer_email}`, error);
+      }
+    }
+
+    setBulkSending(false);
+    setResendMessage({
+      type: 'success',
+      text: `✓ Sent to ${successCount} customers${failedCount > 0 ? ` (${failedCount} failed)` : ''}`
+    });
+    setTimeout(() => setResendMessage({ type: '', text: '' }), 5000);
   };
 
   const resendDeliveryEmail = async (delivery) => {
@@ -177,6 +219,27 @@ function AdminDeliveries() {
           <h4>Pending</h4>
           <p className="stat-number">{stats.pending}</p>
         </div>
+      </div>
+
+      {/* Bulk Action */}
+      <div style={{ marginBottom: "20px", textAlign: "right" }}>
+        <button
+          onClick={sendToAllPending}
+          disabled={bulkSending || filteredDeliveries.filter(d => !d.is_completed).length === 0}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#8B5A6F',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '600',
+            opacity: bulkSending ? 0.6 : 1,
+          }}
+        >
+          {bulkSending ? 'Sending...' : '📧 Send to All Pending'}
+        </button>
       </div>
 
       {/* Controls */}
