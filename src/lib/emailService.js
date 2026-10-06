@@ -1,8 +1,24 @@
-import { Resend } from 'resend';
+let resend = null;
 
-const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+if (import.meta.env.VITE_RESEND_API_KEY) {
+  try {
+    // Dynamically import Resend only if API key exists
+    import('resend').then(({ Resend }) => {
+      resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+    }).catch(() => {
+      console.log('📧 Resend email service disabled');
+    });
+  } catch (e) {
+    console.log('📧 Resend email service disabled');
+  }
+}
 
 export const sendOrderEmail = async (emailType, orderData, customerEmail) => {
+  if (!resend) {
+    console.log(`📧 [DEV MODE] Email not sent: ${emailType} to ${customerEmail}`);
+    return { success: true, id: 'dev-mode' };
+  }
+
   const templates = {
     received: {
       subject: 'Order Received - The Blend.Co',
