@@ -12,10 +12,26 @@ function AdminDeliveries() {
   const [expandedId, setExpandedId] = useState(null);
   const [resendingId, setResendingId] = useState(null);
   const [resendMessage, setResendMessage] = useState({ type: '', text: '' });
+  const [customerEmails, setCustomerEmails] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState('');
 
   useEffect(() => {
     loadDeliveries();
   }, []);
+
+  useEffect(() => {
+    loadCustomerEmails();
+  }, []);
+
+  const loadCustomerEmails = async () => {
+    try {
+      const uniqueEmails = [...new Set(deliveries.map(d => d.customer_email))].filter(Boolean).sort();
+      setCustomerEmails(uniqueEmails);
+    } catch (err) {
+      console.error('Error loading customer emails:', err.message);
+    }
+  };
+
 
   useEffect(() => {
     applyFilters();
@@ -37,6 +53,10 @@ function AdminDeliveries() {
 
   const applyFilters = () => {
     let filtered = deliveries;
+
+    if (selectedCustomer) {
+      filtered = filtered.filter(d => d.customer_email === selectedCustomer);
+    }
 
     if (filterStatus !== 'all') {
       filtered = filtered.filter(d =>
@@ -176,6 +196,16 @@ function AdminDeliveries() {
           <option value="all">All Statuses</option>
           <option value="completed">Completed</option>
           <option value="pending">Pending</option>
+        </select>
+        <select
+          className="filter-select"
+          value={selectedCustomer}
+          onChange={(e) => setSelectedCustomer(e.target.value)}
+        >
+          <option value="">All Customers ({customerEmails.length})</option>
+          {customerEmails.map(email => (
+            <option key={email} value={email}>{email}</option>
+          ))}
         </select>
       </div>
 
