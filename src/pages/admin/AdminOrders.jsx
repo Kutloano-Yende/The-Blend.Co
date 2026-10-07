@@ -8,13 +8,32 @@ function formatZAR(amount) {
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [deliveries, setDeliveries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   useEffect(() => {
     loadOrders();
+    loadDeliveries();
   }, []);
+
+  const loadDeliveries = async () => {
+    try {
+      const { data } = await supabase
+        .from('delivery_addresses')
+        .select('*');
+      setDeliveries(data || []);
+    } catch (err) {
+      console.error('Error loading deliveries:', err.message);
+      setDeliveries([]);
+    }
+  };
+
+  const getDeliveryInfo = (order) => {
+    const customerEmail = getCustomerInfo(order);
+    return deliveries.find(d => d.customer_email === customerEmail);
+  };
 
   const loadOrders = async () => {
     try {
@@ -126,7 +145,8 @@ function AdminOrders() {
                 <th>Customer Email</th>
                 <th>Products</th>
                 <th>Total</th>
-                <th>Status</th>
+                <th>Order Status</th>
+                <th>Delivery Status</th>
                 <th>Date</th>
                 <th>Action</th>
               </tr>
@@ -158,6 +178,19 @@ function AdminOrders() {
                         {order.status || 'pending'}
                       </span>
                     </td>
+                    <td>
+                      {(() => {
+                        const delivery = getDeliveryInfo(order);
+                        if (!delivery) {
+                          return <span className="status-badge status-pending">⏳ Not Started</span>;
+                        }
+                        return (
+                          <span className={`status-badge ${delivery.is_completed ? 'status-completed' : 'status-pending'}`}>
+                            {delivery.is_completed ? '✓ Address Received' : '⏳ Pending'}
+                          </span>
+                        );
+                      })()}
+                    </td>
                     <td className="order-date">
                       {order.created_at ? new Date(order.created_at).toLocaleDateString('en-ZA') : 'N/A'}
                     </td>
@@ -178,18 +211,49 @@ function AdminOrders() {
             </tbody>
           </table>
 
-          {expandedOrderId && (
-            <div className="order-details">
-              {filteredOrders.find(o => o.id === expandedOrderId)?.order_items?.map((item, idx) => (
-                <div key={idx} className="order-item">
-                  <h4>{item.product_name || item.name || 'Unknown Product'}</h4>
-                  <p>Quantity: {item.quantity || 1}</p>
-                  <p>Price: {formatZAR(item.price || 0)}</p>
-                  {item.product_id && <p>Product ID: {item.product_id}</p>}
+          {expandedOrderId && (() => {
+            const expandedOrder = filteredOrders.find(o => o.id === expandedOrderId);
+            const delivery = getDeliveryInfo(expandedOrder);
+            const items = expandedOrder?.order_items || [];
+
+            return (
+              <div className="order-details">
+                <div style={{ marginBottom: '20px', borderBottom: '1px solid #eee', paddingBottom: '15px' }}>
+                  <h3 style={{ marginBottom: '10px' }}>Products</h3>
+                  {items.length > 0 ? (
+                    items.map((item, idx) => (
+                      <div key={idx} className="order-item">
+                        <h4>{item.product_name || item.name || 'Unknown Product'}</h4>
+                        <p>Quantity: {item.quantity || 1}</p>
+                        <p>Price: {formatZAR(item.price || 0)}</p>
+                        {item.product_id && <p>Product ID: {item.product_id}</p>}
+                      </div>
+                    ))
+                  ) : (
+                    <p>No items in this order</p>
+                  )}
                 </div>
-              ))}
-            </div>
-          )}
+
+                {delivery && (
+                  <div style={{ backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '4px' }}>
+                    <h3 style={{ marginBottom: '10px' }}>Delivery Address</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <div>
+                        <p><strong>Status:</strong> {delivery.is_completed ? '✓ Completed' : '⏳ Pending'}</p>
+                        <p><strong>Street:</strong> {delivery.street_address || 'Not provided'}</p>
+                        <p><strong>City:</strong> {delivery.city || 'Not provided'}</p>
+                      </div>
+                      <div>
+                        <p><strong>Postal Code:</strong> {delivery.postal_code || 'Not provided'}</p>
+                        <p><strong>Phone:</strong> {delivery.phone_number || 'Not provided'}</p>
+                        <p><strong>Submitted:</strong> {delivery.completed_at ? new Date(delivery.completed_at).toLocaleDateString('en-ZA') : 'Not submitted'}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
     </div>
