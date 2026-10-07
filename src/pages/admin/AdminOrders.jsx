@@ -376,8 +376,173 @@ function AdminOrders() {
           </div>
         );
       })()}
-        </div>
-      )}
+
+      {/* Order Details Modal */}
+      {selectedOrderId && (() => {
+        const selectedOrder = orders.find(o => o.id === selectedOrderId);
+        const delivery = getDeliveryInfo(selectedOrder);
+        const items = selectedOrder?.order_items || [];
+        const customerEmail = getCustomerInfo(selectedOrder);
+        const orderNumber = orders.findIndex(o => o.id === selectedOrderId) + 1;
+
+        return (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              width: '90%',
+              maxWidth: '800px',
+              padding: '30px',
+            }}>
+              {/* Modal Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', borderBottom: '2px solid #eee', paddingBottom: '15px' }}>
+                <h2 style={{ margin: 0 }}>Order #ORD-{String(orderNumber).padStart(5, '0')}</h2>
+                <button
+                  onClick={() => setSelectedOrderId(null)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    color: '#666',
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Order Info */}
+              <div style={{ marginBottom: '25px' }}>
+                <h3 style={{ marginBottom: '10px', color: '#333' }}>📋 Order Information</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '6px' }}>
+                  <div>
+                    <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Customer Email:</strong></p>
+                    <p style={{ margin: '0', fontSize: '15px' }}>{customerEmail}</p>
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Total:</strong></p>
+                    <p style={{ margin: '0', fontSize: '15px' }}>{formatZAR(getOrderTotal(selectedOrder))}</p>
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Order Status:</strong></p>
+                    <select
+                      value={selectedOrder.status || 'pending'}
+                      onChange={(e) => {
+                        updateOrderStatus(selectedOrder.id, e.target.value);
+                        setSelectedOrderId(null);
+                      }}
+                      style={{
+                        padding: '8px 12px',
+                        borderRadius: '4px',
+                        border: '1px solid #ddd',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </div>
+                  <div>
+                    <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Order Date:</strong></p>
+                    <p style={{ margin: '0', fontSize: '15px' }}>{selectedOrder.created_at ? new Date(selectedOrder.created_at).toLocaleDateString('en-ZA') : 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Products */}
+              <div style={{ marginBottom: '25px' }}>
+                <h3 style={{ marginBottom: '15px', color: '#333' }}>📦 Products ({items.length})</h3>
+                {items.length > 0 ? (
+                  <div style={{ display: 'grid', gap: '12px' }}>
+                    {items.map((item, idx) => (
+                      <div key={idx} style={{ backgroundColor: '#f9f9f9', padding: '12px', borderRadius: '6px', borderLeft: '4px solid #8B5A6F' }}>
+                        <h4 style={{ margin: '0 0 8px 0' }}>{item.product_name || item.name || 'Unknown Product'}</h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '14px', color: '#666' }}>
+                          <p style={{ margin: 0 }}>Quantity: {item.quantity || 1}</p>
+                          <p style={{ margin: 0 }}>Price: {formatZAR(item.price || 0)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ color: '#999' }}>No items in this order</p>
+                )}
+              </div>
+
+              {/* Delivery Address */}
+              <div style={{ marginBottom: '25px' }}>
+                <h3 style={{ marginBottom: '15px', color: '#333' }}>📍 Delivery Address</h3>
+                {delivery ? (
+                  <div style={{ backgroundColor: '#f0f8f0', padding: '15px', borderRadius: '6px', borderLeft: '4px solid #28a745' }}>
+                    <p style={{ margin: '0 0 12px 0' }}><strong>Status:</strong> {delivery.is_completed ? '✓ Completed' : '⏳ Pending'}</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <div>
+                        <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Street Address:</strong></p>
+                        <p style={{ margin: '0', fontSize: '15px' }}>{delivery.street_address || 'Not provided'}</p>
+                      </div>
+                      <div>
+                        <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>City:</strong></p>
+                        <p style={{ margin: '0', fontSize: '15px' }}>{delivery.city || 'Not provided'}</p>
+                      </div>
+                      <div>
+                        <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Postal Code:</strong></p>
+                        <p style={{ margin: '0', fontSize: '15px' }}>{delivery.postal_code || 'Not provided'}</p>
+                      </div>
+                      <div>
+                        <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Phone Number:</strong></p>
+                        <p style={{ margin: '0', fontSize: '15px' }}>{delivery.phone_number || 'Not provided'}</p>
+                      </div>
+                      <div style={{ gridColumn: '1 / -1' }}>
+                        <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}><strong>Submitted Date:</strong></p>
+                        <p style={{ margin: '0', fontSize: '15px' }}>{delivery.completed_at ? new Date(delivery.completed_at).toLocaleDateString('en-ZA') : 'Not submitted'}</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ backgroundColor: '#fff3cd', padding: '15px', borderRadius: '6px', borderLeft: '4px solid #ffc107' }}>
+                    <p style={{ margin: '0', color: '#856404' }}>⏳ Delivery address not yet provided. Customer needs to submit their address.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Close Button */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', paddingTop: '15px', borderTop: '1px solid #eee' }}>
+                <button
+                  onClick={() => setSelectedOrderId(null)}
+                  style={{
+                    padding: '10px 24px',
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
