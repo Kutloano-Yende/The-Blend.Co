@@ -2,7 +2,7 @@ export const TERMS_SECTIONS = [
   {
     heading: 'About us',
     body: [
-      'This website is operated by BANTU CREATIVE SOLUTIONS trading as The Blend.Co ("we", "us"). Registration number: 2026/592280/07. Registered address: [REGISTERED ADDRESS]. Email: [SUPPORT EMAIL].',
+      'This website is operated by BANTU CREATIVE SOLUTIONS trading as The Blend.Co ("we", "us"). Registration number: 2026/592280/07. Registered address: 7744 Khumalo Street, Ivory Park, Midrand, 1683 Extension 8. Email: [SUPPORT EMAIL].',
     ],
   },
   {
