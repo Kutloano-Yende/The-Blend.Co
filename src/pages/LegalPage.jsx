@@ -1,8 +1,23 @@
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
 import './InfoPage.css';
 import './LegalPage.css';
+
+const LINK_PATTERN = /\[\[(.+?)\|(.+?)\]\]/g;
+
+function renderWithLinks(text) {
+  const parts = [];
+  let last = 0;
+  for (const match of text.matchAll(LINK_PATTERN)) {
+    if (match.index > last) parts.push(text.slice(last, match.index));
+    parts.push(<Link key={match.index} to={match[2]}>{match[1]}</Link>);
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
 
 function LegalPage({ title, sections }) {
   return (
@@ -21,7 +36,7 @@ function LegalPage({ title, sections }) {
               <div className="legal-section" key={section.heading}>
                 <h2>{section.heading}</h2>
                 {section.body.map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
+                  <p key={idx}>{renderWithLinks(paragraph)}</p>
                 ))}
               </div>
             ))}

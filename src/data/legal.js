@@ -2,7 +2,7 @@ export const TERMS_SECTIONS = [
   {
     heading: 'About us',
     body: [
-      'This website is operated by [REGISTERED BUSINESS NAME] trading as The Blend.Co ("we", "us"). Registration number: [REGISTRATION NUMBER]. Registered address: [REGISTERED ADDRESS]. Email: [SUPPORT EMAIL].',
+      'This website is operated by BANTU CREATIVE SOLUTIONS trading as The Blend.Co ("we", "us"). Registration number: 2026/592280/07. Registered address: [REGISTERED ADDRESS]. Email: [SUPPORT EMAIL].',
     ],
   },
   {
@@ -21,13 +21,13 @@ export const TERMS_SECTIONS = [
   {
     heading: 'Delivery',
     body: [
-      'We deliver through PAXI. Delivery fees and timeframes are set out on our Shipping page. After payment, customers complete a delivery address form. Orders cannot be dispatched until a delivery address has been provided.',
+      'We deliver through PAXI. Delivery fees and timeframes are set out on our [[Shipping page|/shipping]]. After payment, customers complete a delivery address form. Orders cannot be dispatched until a delivery address has been provided.',
     ],
   },
   {
     heading: 'Returns and refunds',
     body: [
-      'Our returns and refund policy is set out on our Returns page and forms part of these terms.',
+      'Our returns and refund policy is set out on our [[Returns page|/returns]] and forms part of these terms.',
     ],
   },
   {
@@ -66,7 +66,7 @@ export const PRIVACY_SECTIONS = [
   {
     heading: 'Who we are',
     body: [
-      'The Blend.Co, operated by [REGISTERED BUSINESS NAME], is the responsible party for personal information collected through this website. Contact: [SUPPORT EMAIL].',
+      'The Blend.Co, operated by BANTU CREATIVE SOLUTIONS, is the responsible party for personal information collected through this website. Contact: [SUPPORT EMAIL].',
     ],
   },
   {
