@@ -25,6 +25,8 @@ const footerColumns = [
     heading: 'Company',
     links: [
       { label: 'About Us', to: '/about' },
+      { label: 'Terms & Conditions', to: '/terms' },
+      { label: 'Privacy Policy', to: '/privacy' },
       { label: 'Wholesale', to: '#' },
     ],
   },

@@ -31,6 +31,8 @@ import AdminEmails from './pages/admin/AdminEmails';
 import AdminShipments from './pages/admin/AdminShipments';
 import AdminDeliveries from './pages/admin/AdminDeliveries';
 import DeliveryFormPage from './pages/DeliveryFormPage';
+import LegalPage from './pages/LegalPage';
+import { TERMS_SECTIONS, PRIVACY_SECTIONS } from './data/legal';
 
 function App() {
   return (
@@ -54,6 +56,8 @@ function App() {
               <Route path="/checkout/cancel" element={<CheckoutCancel />} />
               <Route path="/shipping" element={<InfoPage title="Shipping" content={SHIPPING_INFO} />} />
               <Route path="/returns" element={<InfoPage title="Returns" content={RETURNS_INFO} />} />
+              <Route path="/terms" element={<LegalPage title="Terms & Conditions" sections={TERMS_SECTIONS} />} />
+              <Route path="/privacy" element={<LegalPage title="Privacy Policy" sections={PRIVACY_SECTIONS} />} />
               <Route path="/delivery/:token" element={<DeliveryFormPage />} />
 
               <Route

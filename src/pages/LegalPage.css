@@ -1,0 +1,18 @@
+.legal-page-inner {
+  max-width: 720px;
+}
+
+.legal-section {
+  margin-top: var(--spacing-xl);
+}
+
+.legal-section h2 {
+  font-size: var(--text-h4, 1.25rem);
+  margin-bottom: var(--spacing-sm);
+}
+
+.legal-section p {
+  color: var(--color-text-secondary);
+  line-height: var(--line-body);
+  margin-top: var(--spacing-sm);
+}
