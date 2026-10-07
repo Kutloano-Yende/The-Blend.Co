@@ -91,18 +91,22 @@ function DeliveryForm({ token }) {
     try {
       setSubmitting(true);
 
-      // Update delivery address
-      const { error: updateError } = await supabase
-        .from('delivery_addresses')
-        .update({
-          ...formData,
-          is_completed: true,
-          completed_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('delivery_link_token', token);
+      // Submit to server API endpoint
+      const response = await fetch('/api/submit-delivery', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token,
+          formData,
+        }),
+      });
 
-      if (updateError) throw updateError;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit form');
+      }
 
       setSuccess(true);
     } catch (err) {
