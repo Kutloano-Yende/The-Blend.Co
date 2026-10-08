@@ -2,7 +2,7 @@ export const TERMS_SECTIONS = [
   {
     heading: 'About us',
     body: [
-      'This website is operated by BANTU CREATIVE SOLUTIONS trading as The Blend.Co ("we", "us"). Registration number: 2026/592280/07. Registered address: 7744 Khumalo Street, Ivory Park, Midrand, 1683 Extension 8. Email: [SUPPORT EMAIL].',
+      'This website is operated by BANTU CREATIVE SOLUTIONS trading as The Blend.Co ("we", "us"). Registration number: 2026/592280/07. Registered address: 7744 Khumalo Street, Ivory Park, Midrand, 1683 Extension 8. Phone: 063 597 5488.',
     ],
   },
   {
@@ -66,7 +66,7 @@ export const PRIVACY_SECTIONS = [
   {
     heading: 'Who we are',
     body: [
-      'The Blend.Co, operated by BANTU CREATIVE SOLUTIONS, is the responsible party for personal information collected through this website. Contact: [SUPPORT EMAIL].',
+      'The Blend.Co, operated by BANTU CREATIVE SOLUTIONS, is the responsible party for personal information collected through this website. Contact: 063 597 5488.',
     ],
   },
   {
@@ -105,7 +105,7 @@ export const PRIVACY_SECTIONS = [
   {
     heading: 'Your rights',
     body: [
-      'Under the Protection of Personal Information Act (POPIA) you may ask to see, correct or delete your personal information, and object to its processing. To do this, email [SUPPORT EMAIL].',
+      'Under the Protection of Personal Information Act (POPIA) you may ask to see, correct or delete your personal information, and object to its processing. To do this, call us on 063 597 5488.',
     ],
   },
   {
